@@ -1,0 +1,30 @@
+{
+  "name": "cc2018-shared-library",
+  "version": "1.0.0",
+  "description": "A shared TypeScript library for Code Camp 2018 Development",
+  "main": "dist/shared.js",
+  "types": "dist/shared.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "prepublish": "npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kreebog/CC2018_Shared-Library.git"
+  },
+  "author": "James Dean",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kreebog/CC2018_Shared-Library/issues"
+  },
+  "homepage": "https://github.com/kreebog/CC2018_Shared-Library#readme",
+  "devDependencies": {
+    "@types/node": "^10.3.5",
+    "@types/seedrandom": "^2.4.27",
+    "typescript": "^2.9.2"
+  },
+  "dependencies": {
+    "seedrandom": "^2.4.3"
+  }
+}
