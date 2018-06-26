@@ -1,15 +1,8 @@
 "use strict";
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const util_1 = require("util");
-const log = __importStar(require("./Logger"));
-const Enums = __importStar(require("./Enums"));
+const Logger_1 = require("./Logger");
+const Enums_1 = require("./Enums");
 /**
  * Used to determine mode of functions modifying cell exits
  */
@@ -18,6 +11,8 @@ var FN_MODES;
     FN_MODES[FN_MODES["ADD"] = 0] = "ADD";
     FN_MODES[FN_MODES["REMOVE"] = 1] = "REMOVE";
 })(FN_MODES || (FN_MODES = {}));
+let log = Logger_1.Logger.getInstance();
+let enums = Enums_1.Enums.getInstance();
 /**
  * Represents a single cell in a maze
  */
@@ -54,7 +49,7 @@ class Cell {
         return this.exits;
     }
     listExits() {
-        return Enums.listSelectedBitNames(Enums.DIRS, this.exits);
+        return enums.listSelectedBitNames(Enums_1.DIRS, this.exits);
     }
     /**
      * Adds exit to a cell if exit doesn't already exist.
@@ -84,10 +79,10 @@ class Cell {
      */
     reverseDir(dir) {
         switch (dir) {
-            case Enums.DIRS.NORTH: return Enums.DIRS.SOUTH;
-            case Enums.DIRS.SOUTH: return Enums.DIRS.NORTH;
-            case Enums.DIRS.EAST: return Enums.DIRS.WEST;
-            case Enums.DIRS.WEST: return Enums.DIRS.EAST;
+            case Enums_1.DIRS.NORTH: return Enums_1.DIRS.SOUTH;
+            case Enums_1.DIRS.SOUTH: return Enums_1.DIRS.NORTH;
+            case Enums_1.DIRS.EAST: return Enums_1.DIRS.WEST;
+            case Enums_1.DIRS.WEST: return Enums_1.DIRS.EAST;
             default: return 0;
         }
     }
@@ -101,25 +96,25 @@ class Cell {
      */
     setExit(mode, dir, cells) {
         let modeName = (mode == FN_MODES.ADD ? 'ADD' : 'REMOVE');
-        let dirName = Enums.DIRS[dir];
+        let dirName = Enums_1.DIRS[dir];
         let validMove = true; // only set to true if valid adjoining cell exits to open an exit to
         log.debug(__filename, util_1.format('setExit(%s, %s)', modeName, dirName), util_1.format('Setting exits in cell [%d][%d]. Existing exits: %s.', this.y, this.x, this.listExits()));
         if (mode == FN_MODES.ADD ? !(this.exits & dir) : !!(this.exits & dir)) {
             let nLoc = { y: -1, x: -1 }; // location adjoining cell - must open exit on both sides
             switch (dir) {
-                case Enums.DIRS.NORTH:
+                case Enums_1.DIRS.NORTH:
                     validMove = this.y > 0;
                     nLoc = { y: this.y - 1, x: this.x };
                     break;
-                case Enums.DIRS.SOUTH:
+                case Enums_1.DIRS.SOUTH:
                     validMove = this.y < cells.length;
                     nLoc = { y: this.y + 1, x: this.x };
                     break;
-                case Enums.DIRS.EAST:
+                case Enums_1.DIRS.EAST:
                     validMove = this.x < cells[0].length;
                     nLoc = { y: this.y, x: this.x + 1 };
                     break;
-                case Enums.DIRS.WEST:
+                case Enums_1.DIRS.WEST:
                     validMove = this.x > 0;
                     nLoc = { y: this.y, x: this.x - 1 };
                     break;
@@ -165,28 +160,28 @@ class Cell {
      * Returns list of string values representing cell tags
      */
     listTags() {
-        return Enums.listSelectedBitNames(Enums.TAGS, this.tags);
+        return enums.listSelectedBitNames(Enums_1.TAGS, this.tags);
     }
     /**
      * Adds an Enums.Tag to this cell if it doesn't already exist
      * @param tag
      */
     addTag(tag) {
-        let tagName = Enums.TAGS[tag];
+        let tagName = Enums_1.TAGS[tag];
         if (!(this.tags & tag)) {
             this.tags += tag;
             switch (tag) {
-                case Enums.TAGS.START:
+                case Enums_1.TAGS.START:
                     // force north exit on start cell - do not use addExit() for this!
-                    if (!(this.exits & Enums.DIRS.NORTH)) {
-                        this.exits += Enums.DIRS.NORTH;
+                    if (!(this.exits & Enums_1.DIRS.NORTH)) {
+                        this.exits += Enums_1.DIRS.NORTH;
                         log.debug(__filename, 'addTag(' + tagName + ')', util_1.format('[%d][%d] has %s tag. Forcing NORTH exit through edge. Cell exits: %s', this.y, this.x, tagName, this.listExits()));
                     }
                     break;
-                case Enums.TAGS.FINISH:
+                case Enums_1.TAGS.FINISH:
                     // force north exit on finish cell - do not use addExit() for this!
-                    if (!(this.exits & Enums.DIRS.SOUTH)) {
-                        this.exits += Enums.DIRS.SOUTH;
+                    if (!(this.exits & Enums_1.DIRS.SOUTH)) {
+                        this.exits += Enums_1.DIRS.SOUTH;
                         log.debug(__filename, 'addTag(' + tagName + ')', util_1.format('[%d][%d] has %s tag. Forcing NORTH exit through edge. Cell exits: %s', this.y, this.x, tagName, this.listExits()));
                     }
                     break;
@@ -202,7 +197,7 @@ class Cell {
      * @param tag
      */
     removeTag(tag) {
-        let tagName = Enums.TAGS[tag];
+        let tagName = Enums_1.TAGS[tag];
         if (!!(this.tags & tag)) {
             this.tags -= tag;
             log.debug(__filename, 'removeTag(' + tagName + ')', util_1.format('Tag %s removed from cell [%d][%d]. Current tags: %s.', tagName, this.y, this.x, this.listTags()));

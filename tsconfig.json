@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "target": "es6",
-        "watch": false,
+        "watch": true,
         "module": "commonjs",
         "moduleResolution": "node",
         "baseUrl": "./",

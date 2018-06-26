@@ -1,15 +1,9 @@
-/**
- * Cardinal directions used for movement, exits, and other direction-based functions
- */
 export declare enum DIRS {
     NORTH = 1,
     SOUTH = 2,
     EAST = 4,
     WEST = 8
 }
-/**
- * Tags for cells, avatar, item, and other functions
- */
 export declare enum TAGS {
     START = 1,
     FINISH = 2,
@@ -24,18 +18,29 @@ export declare enum GAME_RESULTS {
     DEATH_POISON = 4
 }
 /**
- * Returns comma-delimited string of the selected (bitwise) values within
- * the given enumeration.
- *
- * @param targetEnum - Only works with bitwise enumerations!
- * @param selectedBits - Number representing the selected bits
+ * Singleton of Enumerations used by CC2018
  */
-export declare function listSelectedBitNames(targetEnum: Object, selectedBits: number): string;
-/**
- * Returns string array of the selected (bitwise) values within
- * the given enumeration.
- *
- * @param targetEnum - Only works with bitwise enumerations!
- * @param selectedBits - Number representing the selected bits
- */
-export declare function getSelectedBitNames(targetEnum: Object, selectedBits: number): Array<string>;
+export declare class Enums {
+    private static instance;
+    private constructor();
+    /**
+     * Singleton pattern
+     */
+    static getInstance(): Enums;
+    /**
+     * Returns comma-delimited string of the selected (bitwise) values within
+     * the given enumeration.
+     *
+     * @param targetEnum - Only works with bitwise enumerations!
+     * @param selectedBits - Number representing the selected bits
+     */
+    listSelectedBitNames(targetEnum: Object, selectedBits: number): string;
+    /**
+     * Returns string array of the selected (bitwise) values within
+     * the given enumeration.
+     *
+     * @param targetEnum - Only works with bitwise enumerations!
+     * @param selectedBits - Number representing the selected bits
+     */
+    getSelectedBitNames(targetEnum: Object, selectedBits: number): Array<string>;
+}

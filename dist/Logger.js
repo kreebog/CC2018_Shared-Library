@@ -24,7 +24,49 @@ var LOG_LEVELS;
     LOG_LEVELS[LOG_LEVELS["DEBUG"] = 4] = "DEBUG";
     LOG_LEVELS[LOG_LEVELS["TRACE"] = 5] = "TRACE";
 })(LOG_LEVELS = exports.LOG_LEVELS || (exports.LOG_LEVELS = {}));
-let logLevel = LOG_LEVELS.INFO;
+class Logger {
+    // must use getInstance()
+    constructor() {
+        this.logLevel = LOG_LEVELS.INFO;
+    }
+    // singleton instance pattern
+    static getInstance() {
+        if (!Logger.instance) {
+            Logger.instance = new Logger();
+        }
+        return Logger.instance;
+    }
+    setLogLevel(level) {
+        this.logLevel = level;
+        this.info(__filename, 'setLogLevel(' + level + ')', 'Log level set to ' + LOG_LEVELS[level]);
+    }
+    debug(file, method, message) {
+        if (this.logLevel >= LOG_LEVELS.DEBUG) {
+            console.log('%s%s : %s : %s' + (method == '' ? '' : ' : ') + '%s : %s%s', COLORS.BLUE, getTimeStamp(), 'DEBUG', fileName(file), method, message, COLORS.NONE);
+        }
+    }
+    error(file, method, message) {
+        if (this.logLevel >= LOG_LEVELS.ERROR) {
+            console.log('%s%s : %s : %s' + (method == '' ? '' : ' : ') + '%s : %s%s', COLORS.RED, getTimeStamp(), 'ERROR', fileName(file), method, message, COLORS.NONE);
+        }
+    }
+    warn(file, method, message) {
+        if (this.logLevel >= LOG_LEVELS.WARN) {
+            console.log('%s%s : %s : %s' + (method == '' ? '' : ' : ') + '%s : %s%s', COLORS.YELLOW, getTimeStamp(), 'WARN', fileName(file), method, message, COLORS.NONE);
+        }
+    }
+    info(file, method, message) {
+        if (this.logLevel >= LOG_LEVELS.INFO) {
+            console.log('%s%s : %s : %s' + (method == '' ? '' : ' : ') + '%s : %s%s', COLORS.NONE, getTimeStamp(), 'INFO', fileName(file), method, message, COLORS.NONE);
+        }
+    }
+    trace(file, method, message) {
+        if (this.logLevel >= LOG_LEVELS.TRACE) {
+            console.log('%s%s : %s : %s' + (method == '' ? '' : ' : ') + '%s : %s', COLORS.MAGENTA, getTimeStamp(), 'TRACE', fileName(file), method, message, COLORS.NONE);
+        }
+    }
+}
+exports.Logger = Logger;
 // returns the current timestamp
 function getTimeStamp() {
     var dt = new Date();
@@ -34,38 +76,3 @@ function getTimeStamp() {
 function fileName(file) {
     return typeof file !== 'undefined' ? path_1.default.basename(file) : 'FILE_UNKNOWN';
 }
-function setLogLevel(level) {
-    logLevel = level;
-    info(__filename, 'setLogLevel(' + level + ')', 'Log level set to ' + LOG_LEVELS[level]);
-}
-exports.setLogLevel = setLogLevel;
-function debug(file, method, message) {
-    if (logLevel >= LOG_LEVELS.DEBUG) {
-        console.log('%s%s : %s : %s' + (method == '' ? '' : ' : ') + '%s : %s%s', COLORS.BLUE, getTimeStamp(), 'DEBUG', fileName(file), method, message, COLORS.NONE);
-    }
-}
-exports.debug = debug;
-function error(file, method, message) {
-    if (logLevel >= LOG_LEVELS.ERROR) {
-        console.log('%s%s : %s : %s' + (method == '' ? '' : ' : ') + '%s : %s%s', COLORS.RED, getTimeStamp(), 'ERROR', fileName(file), method, message, COLORS.NONE);
-    }
-}
-exports.error = error;
-function warn(file, method, message) {
-    if (logLevel >= LOG_LEVELS.WARN) {
-        console.log('%s%s : %s : %s' + (method == '' ? '' : ' : ') + '%s : %s%s', COLORS.YELLOW, getTimeStamp(), 'WARN', fileName(file), method, message, COLORS.NONE);
-    }
-}
-exports.warn = warn;
-function info(file, method, message) {
-    if (logLevel >= LOG_LEVELS.INFO) {
-        console.log('%s%s : %s : %s' + (method == '' ? '' : ' : ') + '%s : %s%s', COLORS.NONE, getTimeStamp(), 'INFO', fileName(file), method, message, COLORS.NONE);
-    }
-}
-exports.info = info;
-function trace(file, method, message) {
-    if (logLevel >= LOG_LEVELS.TRACE) {
-        console.log('%s%s : %s : %s' + (method == '' ? '' : ' : ') + '%s : %s', COLORS.MAGENTA, getTimeStamp(), 'TRACE', fileName(file), method, message, COLORS.NONE);
-    }
-}
-exports.trace = trace;

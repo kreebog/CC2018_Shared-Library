@@ -6,9 +6,15 @@ export declare enum LOG_LEVELS {
     DEBUG = 4,
     TRACE = 5
 }
-export declare function setLogLevel(level: LOG_LEVELS): void;
-export declare function debug(file: string, method: string, message: string): void;
-export declare function error(file: string, method: string, message: string): void;
-export declare function warn(file: string, method: string, message: string): void;
-export declare function info(file: string, method: string, message: string): void;
-export declare function trace(file: string, method: string, message: string): void;
+export declare class Logger {
+    private static instance;
+    private logLevel;
+    private constructor();
+    static getInstance(): Logger;
+    setLogLevel(level: LOG_LEVELS): void;
+    debug(file: string, method: string, message: string): void;
+    error(file: string, method: string, message: string): void;
+    warn(file: string, method: string, message: string): void;
+    info(file: string, method: string, message: string): void;
+    trace(file: string, method: string, message: string): void;
+}

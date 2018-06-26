@@ -1,8 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const Maze_1 = require("./Maze");
-const Cell_1 = require("./Cell");
-module.exports = {
-    Maze: Maze_1.Maze,
-    Cell: Cell_1.Cell
-};
+var Logger_1 = require("./Logger");
+exports.Logger = Logger_1.Logger;
+var Maze_1 = require("./Maze");
+exports.Maze = Maze_1.Maze;
+var Cell_1 = require("./Cell");
+exports.Cell = Cell_1.Cell;
+var Enums_1 = require("./Enums");
+exports.Enums = Enums_1.Enums;
+exports.DIRS = Enums_1.DIRS;
+exports.TAGS = Enums_1.TAGS;
+exports.GAME_RESULTS = Enums_1.GAME_RESULTS;

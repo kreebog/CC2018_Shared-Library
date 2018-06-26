@@ -21,7 +21,58 @@ export enum LOG_LEVELS {
     TRACE
 }
 
-let logLevel = LOG_LEVELS.INFO;
+export class Logger {
+
+    private static instance: Logger;
+
+    private logLevel: LOG_LEVELS = LOG_LEVELS.INFO;
+
+    // must use getInstance()
+    private constructor() { }
+
+    // singleton instance pattern
+    static getInstance() {
+        if (!Logger.instance) {
+            Logger.instance = new Logger();
+        }
+        return Logger.instance;
+    }
+
+    public setLogLevel(level: LOG_LEVELS) {
+        this.logLevel = level;
+        this.info(__filename, 'setLogLevel(' + level + ')', 'Log level set to ' + LOG_LEVELS[level]);
+    }
+    
+    public debug(file: string, method: string, message: string) {
+        if (this.logLevel >= LOG_LEVELS.DEBUG) {
+            console.log('%s%s : %s : %s' + (method == '' ? '' : ' : ') + '%s : %s%s', COLORS.BLUE, getTimeStamp(), 'DEBUG', fileName(file), method, message, COLORS.NONE);
+        }
+    }
+    
+    public error(file: string, method: string, message: string) {
+        if (this.logLevel >= LOG_LEVELS.ERROR) {
+            console.log('%s%s : %s : %s' + (method == '' ? '' : ' : ') + '%s : %s%s', COLORS.RED, getTimeStamp(), 'ERROR', fileName(file), method, message, COLORS.NONE);
+        }
+    }
+    
+    public warn(file: string, method: string, message: string) {
+        if (this.logLevel >= LOG_LEVELS.WARN) {
+            console.log('%s%s : %s : %s' + (method == '' ? '' : ' : ') + '%s : %s%s', COLORS.YELLOW, getTimeStamp(), 'WARN', fileName(file), method, message, COLORS.NONE);
+        }
+    }
+    
+    public info(file: string, method: string, message: string) {
+        if (this.logLevel >= LOG_LEVELS.INFO) {
+            console.log('%s%s : %s : %s' + (method == '' ? '' : ' : ') + '%s : %s%s', COLORS.NONE, getTimeStamp(), 'INFO', fileName(file), method, message, COLORS.NONE);
+        }
+    }
+    
+    public trace(file: string, method: string, message: string) {
+        if (this.logLevel >= LOG_LEVELS.TRACE) {
+            console.log('%s%s : %s : %s' + (method == '' ? '' : ' : ') + '%s : %s', COLORS.MAGENTA, getTimeStamp(), 'TRACE', fileName(file), method, message, COLORS.NONE);
+        }
+    }
+}
 
 // returns the current timestamp
 function getTimeStamp(): string {
@@ -33,38 +84,4 @@ function getTimeStamp(): string {
 function fileName(file: string) {
     return typeof file  !== 'undefined' ?  path.basename(file) : 'FILE_UNKNOWN';
 }
-
-export function setLogLevel(level: LOG_LEVELS) {
-    logLevel = level;
-    info(__filename, 'setLogLevel(' + level + ')', 'Log level set to ' + LOG_LEVELS[level]);
-}
-
-export function debug(file: string, method: string, message: string) {
-    if (logLevel >= LOG_LEVELS.DEBUG) {
-        console.log('%s%s : %s : %s' + (method == '' ? '' : ' : ') + '%s : %s%s', COLORS.BLUE, getTimeStamp(), 'DEBUG', fileName(file), method, message, COLORS.NONE);
-    }
-}
-
-export function error(file: string, method: string, message: string) {
-    if (logLevel >= LOG_LEVELS.ERROR) {
-        console.log('%s%s : %s : %s' + (method == '' ? '' : ' : ') + '%s : %s%s', COLORS.RED, getTimeStamp(), 'ERROR', fileName(file), method, message, COLORS.NONE);
-    }
-}
-
-export function warn(file: string, method: string, message: string) {
-    if (logLevel >= LOG_LEVELS.WARN) {
-        console.log('%s%s : %s : %s' + (method == '' ? '' : ' : ') + '%s : %s%s', COLORS.YELLOW, getTimeStamp(), 'WARN', fileName(file), method, message, COLORS.NONE);
-    }
-}
-
-export function info(file: string, method: string, message: string) {
-    if (logLevel >= LOG_LEVELS.INFO) {
-        console.log('%s%s : %s : %s' + (method == '' ? '' : ' : ') + '%s : %s%s', COLORS.NONE, getTimeStamp(), 'INFO', fileName(file), method, message, COLORS.NONE);
-    }
-}
-
-export function trace(file: string, method: string, message: string) {
-    if (logLevel >= LOG_LEVELS.TRACE) {
-        console.log('%s%s : %s : %s' + (method == '' ? '' : ' : ') + '%s : %s', COLORS.MAGENTA, getTimeStamp(), 'TRACE', fileName(file), method, message, COLORS.NONE);
-    }
-}
+    

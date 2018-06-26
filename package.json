@@ -1,12 +1,12 @@
 {
   "name": "cc2018-ts-lib",
-  "version": "0.0.5",
+  "version": "0.0.8",
   "description": "A shared TypeScript library for Code Camp 2018 Development",
   "main": "dist/shared.js",
   "types": "dist/shared.d.ts",
   "scripts": {
     "build": "tsc",
-    "prepublish": "npm run build",
+    "prepare": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

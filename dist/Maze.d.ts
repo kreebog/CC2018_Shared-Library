@@ -1,3 +1,6 @@
+/**
+ * Maze class - the heart of everything!
+ */
 export declare class Maze {
     private cells;
     private height;
@@ -25,4 +28,3 @@ export declare class Maze {
      */
     render(): string;
 }
-export default Maze;

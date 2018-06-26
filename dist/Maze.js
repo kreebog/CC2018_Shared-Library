@@ -2,25 +2,24 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const util_1 = require("util");
 const seedrandom_1 = __importDefault(require("seedrandom"));
-const log = __importStar(require("./Logger"));
-const Enums = __importStar(require("./Enums"));
+const Logger_1 = require("./Logger");
+const Enums_1 = require("./Enums");
 const Cell_1 = __importDefault(require("./Cell"));
 let carveDepth = 0; // tracks the level of recursion during path carving
 let maxCarveDepth = 0; // tracks the deepest level of carve recursion seen 
 let startGenTime = 0; // used to determine time spent generating a maze
+// don't let the maze get too big or the server will run out of memory during generation
 const MAX_CELL_COUNT = 2500;
+// logger and enum singletons
+const log = Logger_1.Logger.getInstance();
+const enums = Enums_1.Enums.getInstance();
+/**
+ * Maze class - the heart of everything!
+ */
 class Maze {
-    // don't let the maze get too big or the server will run out of memory during generation
     constructor() {
         this.cells = new Array();
         this.height = 0;
@@ -102,8 +101,8 @@ class Maze {
         let finishCol = Math.floor(Math.random() * width);
         log.debug(__filename, 'generate()', util_1.format('Adding START ([%d][%d]) and FINISH ([%d][%d]) cells.', 0, startCol, height - 1, finishCol));
         // tag start and finish columns (start / finish tags force matching exits on edge)
-        this.cells[0][startCol].addTag(Enums.TAGS.START);
-        this.cells[height - 1][finishCol].addTag(Enums.TAGS.FINISH);
+        this.cells[0][startCol].addTag(Enums_1.TAGS.START);
+        this.cells[height - 1][finishCol].addTag(Enums_1.TAGS.FINISH);
         // start the carving routine
         this.carvePassage(this.cells[0][0]);
         // render the maze so the text rendering is set
@@ -122,17 +121,17 @@ class Maze {
             let ny = cell.getLocation().y;
             let nx = cell.getLocation().x;
             // move location of next cell according to random direction
-            if (dirs[n] < Enums.DIRS.EAST)
-                ny = (dirs[n] == Enums.DIRS.NORTH ? ny - 1 : ny + 1);
-            if (dirs[n] > Enums.DIRS.SOUTH)
-                nx = (dirs[n] == Enums.DIRS.EAST ? nx + 1 : nx - 1);
+            if (dirs[n] < Enums_1.DIRS.EAST)
+                ny = (dirs[n] == Enums_1.DIRS.NORTH ? ny - 1 : ny + 1);
+            if (dirs[n] > Enums_1.DIRS.SOUTH)
+                nx = (dirs[n] == Enums_1.DIRS.EAST ? nx + 1 : nx - 1);
             try {
                 // if the next call has valid grid coordinates, get it and carve into it
                 if (ny >= 0 && ny < this.cells.length && nx >= 0 && nx < this.cells[0].length) {
                     let nextCell = this.cells[ny][nx];
-                    if (!(nextCell.getTags() & Enums.TAGS.CARVED) && cell.addExit(dirs[n], this.cells)) {
+                    if (!(nextCell.getTags() & Enums_1.TAGS.CARVED) && cell.addExit(dirs[n], this.cells)) {
                         // this is a good move, so mark the cell as carved
-                        nextCell.addTag(Enums.TAGS.CARVED);
+                        nextCell.addTag(Enums_1.TAGS.CARVED);
                         // and carve into the next cell
                         this.carvePassage(nextCell);
                     }
@@ -182,39 +181,39 @@ class Maze {
                         case 0:
                             // only render north walls on first row
                             if (y == 0) {
-                                if (!!(cell.getTags() & Enums.TAGS.START)) {
+                                if (!!(cell.getTags() & Enums_1.TAGS.START)) {
                                     row += S_DOOR;
                                 }
                                 else {
-                                    row += !!(cell.getExits() & Enums.DIRS.NORTH) ? H_DOOR : H_WALL;
+                                    row += !!(cell.getExits() & Enums_1.DIRS.NORTH) ? H_DOOR : H_WALL;
                                 }
                             }
                             break;
                         case 1:
                             // only render west walls on first column
                             if (x == 0) {
-                                row += !!(cell.getExits() & Enums.DIRS.WEST) ? V_DOOR : V_WALL;
+                                row += !!(cell.getExits() & Enums_1.DIRS.WEST) ? V_DOOR : V_WALL;
                             }
                             // render room center - check for cell properties and render appropriately
-                            if (!!(cell.getTags() & Enums.TAGS.CARVED)) {
+                            if (!!(cell.getTags() & Enums_1.TAGS.CARVED)) {
                                 row += CARVED;
                             }
-                            else if (!!(cell.getTags() & Enums.TAGS.PATH)) {
+                            else if (!!(cell.getTags() & Enums_1.TAGS.PATH)) {
                                 row += SOLUTION;
                             }
                             else {
                                 row += CENTER;
                             }
                             // always render east walls (with room center)
-                            row += !!(cell.getExits() & Enums.DIRS.EAST) ? V_DOOR : V_WALL;
+                            row += !!(cell.getExits() & Enums_1.DIRS.EAST) ? V_DOOR : V_WALL;
                             break;
                         case 2:
                             // always render south walls
-                            if (!!(cell.getTags() & Enums.TAGS.FINISH)) {
+                            if (!!(cell.getTags() & Enums_1.TAGS.FINISH)) {
                                 row += F_DOOR;
                             }
                             else {
-                                row += !!(cell.getExits() & Enums.DIRS.SOUTH) ? H_DOOR : H_WALL;
+                                row += !!(cell.getExits() & Enums_1.DIRS.SOUTH) ? H_DOOR : H_WALL;
                             }
                             break;
                     }
@@ -233,4 +232,3 @@ class Maze {
     }
 }
 exports.Maze = Maze;
-exports.default = Maze;

@@ -1,4 +1,4 @@
-import * as Enums from './Enums';
+import { DIRS, TAGS } from './Enums';
 /**
  * Represents a single cell in a maze
  */
@@ -26,7 +26,7 @@ export declare class Cell {
      * @param cells
      * @returns boolean
      */
-    addExit(dir: Enums.DIRS, cells: Array<Array<Cell>>): boolean;
+    addExit(dir: DIRS, cells: Array<Array<Cell>>): boolean;
     /**
      * Adds exit to a cell if exit doesn't already exist.
      * Also adds neighboring exit to valid, adjoining cell.
@@ -35,7 +35,7 @@ export declare class Cell {
      * @param cells
      * @returns boolean
      */
-    removeExit(dir: Enums.DIRS, cells: Array<Array<Cell>>): boolean;
+    removeExit(dir: DIRS, cells: Array<Array<Cell>>): boolean;
     /**
      * Returns the opposing direction for a given direction
      * @param dir
@@ -75,11 +75,11 @@ export declare class Cell {
      * Adds an Enums.Tag to this cell if it doesn't already exist
      * @param tag
      */
-    addTag(tag: Enums.TAGS): void;
+    addTag(tag: TAGS): void;
     /**
      * Removes a tag from this cell, if it exists
      * @param tag
      */
-    removeTag(tag: Enums.TAGS): void;
+    removeTag(tag: TAGS): void;
 }
 export default Cell;

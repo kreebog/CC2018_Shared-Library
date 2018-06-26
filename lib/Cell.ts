@@ -1,6 +1,6 @@
 import { format } from 'util';
-import * as log from './Logger';
-import * as Enums from './Enums';
+import { Logger, LOG_LEVELS } from './Logger';
+import { Enums, DIRS, TAGS, GAME_RESULTS } from './Enums';
 
 /**
  * Used to determine mode of functions modifying cell exits
@@ -9,6 +9,9 @@ enum FN_MODES {
     ADD = 0,
     REMOVE
 }
+
+let log = Logger.getInstance();
+let enums = Enums.getInstance();
 
 /**
  * Represents a single cell in a maze
@@ -54,7 +57,7 @@ export class Cell {
     }
 
     public listExits(): string {
-        return Enums.listSelectedBitNames(Enums.DIRS, this.exits);
+        return enums.listSelectedBitNames(DIRS, this.exits);
     }
 
     /**
@@ -65,7 +68,7 @@ export class Cell {
      * @param cells 
      * @returns boolean 
      */
-    public addExit(dir: Enums.DIRS, cells: Array<Array<Cell>>): boolean {
+    public addExit(dir: DIRS, cells: Array<Array<Cell>>): boolean {
         return this.setExit(FN_MODES.ADD, dir, cells);
     }
 
@@ -77,7 +80,7 @@ export class Cell {
      * @param cells 
      * @returns boolean 
      */
-    public removeExit(dir: Enums.DIRS, cells: Array<Array<Cell>>): boolean {
+    public removeExit(dir: DIRS, cells: Array<Array<Cell>>): boolean {
         return this.setExit(FN_MODES.REMOVE, dir, cells);
     }
 
@@ -85,12 +88,12 @@ export class Cell {
      * Returns the opposing direction for a given direction
      * @param dir 
      */
-    private reverseDir(dir: Enums.DIRS): number {
+    private reverseDir(dir: DIRS): number {
         switch (dir) {
-            case Enums.DIRS.NORTH: return Enums.DIRS.SOUTH;
-            case Enums.DIRS.SOUTH: return Enums.DIRS.NORTH;
-            case Enums.DIRS.EAST: return Enums.DIRS.WEST;
-            case Enums.DIRS.WEST: return Enums.DIRS.EAST;
+            case DIRS.NORTH: return DIRS.SOUTH;
+            case DIRS.SOUTH: return DIRS.NORTH;
+            case DIRS.EAST: return DIRS.WEST;
+            case DIRS.WEST: return DIRS.EAST;
             default: return 0;
         }
     }
@@ -103,9 +106,9 @@ export class Cell {
      * @param cells 
      * @returns boolean 
      */
-    private setExit(mode: FN_MODES, dir: Enums.DIRS, cells: Array<Array<Cell>>): boolean {
+    private setExit(mode: FN_MODES, dir: DIRS, cells: Array<Array<Cell>>): boolean {
         let modeName = (mode == FN_MODES.ADD ? 'ADD' : 'REMOVE');
-        let dirName = Enums.DIRS[dir];
+        let dirName = DIRS[dir];
         let validMove = true; // only set to true if valid adjoining cell exits to open an exit to
 
         log.debug(__filename, format('setExit(%s, %s)', modeName, dirName), format('Setting exits in cell [%d][%d]. Existing exits: %s.', this.y, this.x, this.listExits()));
@@ -114,19 +117,19 @@ export class Cell {
             let nLoc = {y: -1, x: -1}; // location adjoining cell - must open exit on both sides
 
             switch (dir) {
-                case Enums.DIRS.NORTH:
+                case DIRS.NORTH:
                     validMove = this.y > 0;
                     nLoc = {y: this.y - 1, x: this.x};
                     break;
-                case Enums.DIRS.SOUTH:
+                case DIRS.SOUTH:
                     validMove = this.y < cells.length;
                     nLoc = {y: this.y + 1, x: this.x};
                     break;
-                case Enums.DIRS.EAST:
+                case DIRS.EAST:
                     validMove = this.x < cells[0].length;
                     nLoc = {y: this.y, x: this.x + 1};
                     break;
-                case Enums.DIRS.WEST:
+                case DIRS.WEST:
                     validMove = this.x > 0;
                     nLoc = {y: this.y, x: this.x - 1};
                     break;
@@ -178,7 +181,7 @@ export class Cell {
      * Returns list of string values representing cell tags 
      */
     public listTags(): string {
-        return Enums.listSelectedBitNames(Enums.TAGS, this.tags);
+        return enums.listSelectedBitNames(TAGS, this.tags);
     }
 
 
@@ -186,25 +189,25 @@ export class Cell {
      * Adds an Enums.Tag to this cell if it doesn't already exist
      * @param tag 
      */
-    public addTag(tag: Enums.TAGS) {
-        let tagName = Enums.TAGS[tag];
+    public addTag(tag: TAGS) {
+        let tagName = TAGS[tag];
 
         if (!(this.tags & tag)) {
             
             this.tags += tag;
 
             switch (tag) {
-                case Enums.TAGS.START:
+                case TAGS.START:
                     // force north exit on start cell - do not use addExit() for this!
-                    if (!(this.exits & Enums.DIRS.NORTH)) {
-                        this.exits += Enums.DIRS.NORTH;
+                    if (!(this.exits & DIRS.NORTH)) {
+                        this.exits += DIRS.NORTH;
                         log.debug(__filename, 'addTag(' + tagName + ')', format('[%d][%d] has %s tag. Forcing NORTH exit through edge. Cell exits: %s', this.y, this.x, tagName, this.listExits()));
                     }
                     break;
-                case Enums.TAGS.FINISH:
+                case TAGS.FINISH:
                     // force north exit on finish cell - do not use addExit() for this!
-                    if (!(this.exits & Enums.DIRS.SOUTH)) {
-                        this.exits += Enums.DIRS.SOUTH;
+                    if (!(this.exits & DIRS.SOUTH)) {
+                        this.exits += DIRS.SOUTH;
                         log.debug(__filename, 'addTag(' + tagName + ')', format('[%d][%d] has %s tag. Forcing NORTH exit through edge. Cell exits: %s', this.y, this.x, tagName, this.listExits()));
                     }
                     break;
@@ -219,8 +222,8 @@ export class Cell {
      * Removes a tag from this cell, if it exists
      * @param tag 
      */
-    public removeTag(tag: Enums.TAGS) {
-        let tagName = Enums.TAGS[tag];
+    public removeTag(tag: TAGS) {
+        let tagName = TAGS[tag];
         if (!!(this.tags & tag)) {
             this.tags -= tag;
             log.debug(__filename, 'removeTag(' + tagName + ')', format('Tag %s removed from cell [%d][%d]. Current tags: %s.', tagName, this.y, this.x, this.listTags()));

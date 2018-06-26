@@ -1,9 +1,5 @@
-import { Maze as m } from './Maze';
-import { Cell as c } from './Cell';
-import * as Logger from './Logger';
-import * as Enums from './Enums';
 
-module.exports = {
-    Maze:m,
-    Cell:c
-} 
+export { Logger } from './Logger';
+export { Maze } from './Maze';
+export { Cell } from './Cell';
+export { Enums, DIRS, TAGS, GAME_RESULTS } from './Enums';
