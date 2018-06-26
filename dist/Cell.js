@@ -28,6 +28,14 @@ class Cell {
         this.exits = exits;
         this.tags = tags;
     }
+    loadFromJson(data) {
+        this.x = data.x;
+        this.y = data.y;
+        this.exits = data.exits;
+        this.tags = data.tags;
+        this.visits = data.visits;
+        this.lastVisit = data.lastVisit;
+    }
     addNote(note) {
         this.notes.push(note);
         log.debug(__filename, 'addNote()', 'Note added to cell: ' + note);

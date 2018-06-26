@@ -2,6 +2,7 @@ import { format } from 'util';
 import seedrandom from 'seedrandom';
 import { Logger } from './Logger';
 import { DIRS, TAGS } from './Enums';
+import { IMaze } from './Interfaces';
 
 import Cell from './Cell';
 
@@ -30,15 +31,13 @@ export class Maze {
     }
 
     // loads object from values given in json string
-    public loadFromJSON(jsonMaze: string): this {
-        let obj = JSON.parse(jsonMaze);
-
-        this.cells = obj.cells;
-        this.height = obj.height;
-        this.width = obj.width;
-        this.seed = obj.seed;
-        this.textRender = obj.textRender;
-        this.id = obj.id;
+    public loadFromJSON(data: IMaze): this {
+        this.cells = data.cells;
+        this.height = data.height;
+        this.width = data.width;
+        this.seed = data.seed;
+        this.textRender = data.textRender;
+        this.id = data.id;
 
         return this;
     }

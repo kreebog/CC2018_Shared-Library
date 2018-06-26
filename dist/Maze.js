@@ -28,14 +28,13 @@ class Maze {
         this.id = '';
     }
     // loads object from values given in json string
-    loadFromJSON(jsonMaze) {
-        let obj = JSON.parse(jsonMaze);
-        this.cells = obj.cells;
-        this.height = obj.height;
-        this.width = obj.width;
-        this.seed = obj.seed;
-        this.textRender = obj.textRender;
-        this.id = obj.id;
+    loadFromJSON(data) {
+        this.cells = data.cells;
+        this.height = data.height;
+        this.width = data.width;
+        this.seed = data.seed;
+        this.textRender = data.textRender;
+        this.id = data.id;
         return this;
     }
     getSeed() {

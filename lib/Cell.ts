@@ -1,6 +1,7 @@
 import { format } from 'util';
 import { Logger, LOG_LEVELS } from './Logger';
 import { Enums, DIRS, TAGS, GAME_RESULTS } from './Enums';
+import { ICell } from './Interfaces';
 
 /**
  * Used to determine mode of functions modifying cell exits
@@ -28,6 +29,15 @@ export class Cell {
     constructor(exits: number, tags: number) {
         this.exits = exits;
         this.tags = tags;
+    }
+
+    public loadFromJson(data: ICell) { 
+        this.x = data.x;
+        this.y = data.y;
+        this.exits = data.exits;
+        this.tags = data.tags;
+        this.visits = data.visits;
+        this.lastVisit = data.lastVisit;
     }
 
     public addNote(note: string) {

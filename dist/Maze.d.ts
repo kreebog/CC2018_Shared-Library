@@ -1,3 +1,4 @@
+import { IMaze } from './Interfaces';
 /**
  * Maze class - the heart of everything!
  */
@@ -9,7 +10,7 @@ export declare class Maze {
     private textRender;
     private id;
     constructor();
-    loadFromJSON(jsonMaze: string): this;
+    loadFromJSON(data: IMaze): this;
     getSeed(): string;
     getHeight(): number;
     getWidth(): number;
