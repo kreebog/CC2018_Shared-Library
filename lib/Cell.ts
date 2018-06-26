@@ -1,7 +1,7 @@
 import { format } from 'util';
 import { Logger, LOG_LEVELS } from './Logger';
 import { Enums, DIRS, TAGS, GAME_RESULTS } from './Enums';
-import { ICell } from './Interfaces';
+import { ICell } from './ICell';
 
 /**
  * Used to determine mode of functions modifying cell exits

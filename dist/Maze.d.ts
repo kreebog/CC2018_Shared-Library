@@ -1,4 +1,4 @@
-import { IMaze } from './Interfaces';
+import { IMaze } from './IMaze';
 /**
  * Maze class - the heart of everything!
  */

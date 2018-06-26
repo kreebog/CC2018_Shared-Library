@@ -1,5 +1,5 @@
 import { DIRS, TAGS } from './Enums';
-import { ICell } from './Interfaces';
+import { ICell } from './ICell';
 /**
  * Represents a single cell in a maze
  */

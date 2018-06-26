@@ -2,7 +2,7 @@ import { format } from 'util';
 import seedrandom from 'seedrandom';
 import { Logger } from './Logger';
 import { DIRS, TAGS } from './Enums';
-import { IMaze } from './Interfaces';
+import { IMaze } from './IMaze';
 
 import Cell from './Cell';
 
