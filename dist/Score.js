@@ -1,9 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const util_1 = require("util");
-const Logger_1 = require("./Logger");
 const Enums_1 = require("./Enums");
-const log = Logger_1.Logger.getInstance();
 class Score {
     constructor() {
         // Primary Key = mazeId:teamId:gameId:gameRound
