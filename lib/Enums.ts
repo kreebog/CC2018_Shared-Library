@@ -18,11 +18,12 @@ export enum TAGS {
 
 // enumeration of possible game results
 export enum GAME_RESULTS {
-    WIN = 0,
+    IN_PROGRESS,
     OUT_OF_MOVES,
     OUT_OF_TIME,
     DEATH_TRAP,
-    DEATH_POISON
+    DEATH_POISON,
+    WIN
 }
 
 

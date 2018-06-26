@@ -1,7 +1,7 @@
 import { format } from 'util';
 import seedrandom from 'seedrandom';
-import { Logger, LOG_LEVELS } from './Logger';
-import { Enums, DIRS, TAGS, GAME_RESULTS } from './Enums';
+import { Logger } from './Logger';
+import { DIRS, TAGS } from './Enums';
 
 import Cell from './Cell';
 
@@ -14,8 +14,6 @@ const MAX_CELL_COUNT = 2500;
 
 // logger and enum singletons
 const log = Logger.getInstance();
-const enums = Enums.getInstance();
-
 
 /**
  * Maze class - the heart of everything!

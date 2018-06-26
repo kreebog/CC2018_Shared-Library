@@ -11,11 +11,12 @@ export declare enum TAGS {
     CARVED = 8
 }
 export declare enum GAME_RESULTS {
-    WIN = 0,
+    IN_PROGRESS = 0,
     OUT_OF_MOVES = 1,
     OUT_OF_TIME = 2,
     DEATH_TRAP = 3,
-    DEATH_POISON = 4
+    DEATH_POISON = 4,
+    WIN = 5
 }
 /**
  * Singleton of Enumerations used by CC2018

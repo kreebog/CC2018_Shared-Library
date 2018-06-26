@@ -15,7 +15,6 @@ let startGenTime = 0; // used to determine time spent generating a maze
 const MAX_CELL_COUNT = 2500;
 // logger and enum singletons
 const log = Logger_1.Logger.getInstance();
-const enums = Enums_1.Enums.getInstance();
 /**
  * Maze class - the heart of everything!
  */

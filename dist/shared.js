@@ -11,3 +11,5 @@ exports.Enums = Enums_1.Enums;
 exports.DIRS = Enums_1.DIRS;
 exports.TAGS = Enums_1.TAGS;
 exports.GAME_RESULTS = Enums_1.GAME_RESULTS;
+var Score_1 = require("./Score");
+exports.Score = Score_1.Score;
