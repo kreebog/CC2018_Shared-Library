@@ -18,6 +18,13 @@ export declare enum GAME_RESULTS {
     DEATH_POISON = 4,
     WIN = 5
 }
+export declare enum GAME_STATES {
+    NEW = 0,
+    IN_PROGRESS = 1,
+    WAIT_BOT = 2,
+    WAIT_TEAM = 3,
+    FINISHED = 4
+}
 /**
  * Singleton of Enumerations used by CC2018
  */

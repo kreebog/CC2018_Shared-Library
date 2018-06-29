@@ -26,6 +26,15 @@ var GAME_RESULTS;
     GAME_RESULTS[GAME_RESULTS["DEATH_POISON"] = 4] = "DEATH_POISON";
     GAME_RESULTS[GAME_RESULTS["WIN"] = 5] = "WIN";
 })(GAME_RESULTS = exports.GAME_RESULTS || (exports.GAME_RESULTS = {}));
+// enumeration of possible game states
+var GAME_STATES;
+(function (GAME_STATES) {
+    GAME_STATES[GAME_STATES["NEW"] = 0] = "NEW";
+    GAME_STATES[GAME_STATES["IN_PROGRESS"] = 1] = "IN_PROGRESS";
+    GAME_STATES[GAME_STATES["WAIT_BOT"] = 2] = "WAIT_BOT";
+    GAME_STATES[GAME_STATES["WAIT_TEAM"] = 3] = "WAIT_TEAM";
+    GAME_STATES[GAME_STATES["FINISHED"] = 4] = "FINISHED";
+})(GAME_STATES = exports.GAME_STATES || (exports.GAME_STATES = {}));
 /**
  * Singleton of Enumerations used by CC2018
  */

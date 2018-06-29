@@ -26,6 +26,14 @@ export enum GAME_RESULTS {
     WIN
 }
 
+// enumeration of possible game states
+export enum GAME_STATES {
+    NEW,
+    IN_PROGRESS,
+    WAIT_BOT,
+    WAIT_TEAM,
+    FINISHED
+}
 
 /**
  * Singleton of Enumerations used by CC2018
