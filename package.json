@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/kreebog/CC2018_Shared-Library#readme",
   "devDependencies": {
-    "@types/node": "^10.3.6",
+    "@types/node": "^10.5.0",
     "@types/seedrandom": "^2.4.27",
     "typescript": "^2.9.2"
   },
