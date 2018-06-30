@@ -1,29 +1,37 @@
 export declare enum DIRS {
+    NONE = 0,
     NORTH = 1,
     SOUTH = 2,
     EAST = 4,
     WEST = 8
 }
 export declare enum TAGS {
+    NONE = 0,
     START = 1,
     FINISH = 2,
     PATH = 4,
     CARVED = 8
 }
 export declare enum GAME_RESULTS {
-    IN_PROGRESS = 0,
-    OUT_OF_MOVES = 1,
-    OUT_OF_TIME = 2,
-    DEATH_TRAP = 3,
-    DEATH_POISON = 4,
-    WIN = 5
+    IN_PROGRESS = 1,
+    OUT_OF_MOVES = 2,
+    OUT_OF_TIME = 4,
+    DEATH_TRAP = 8,
+    DEATH_POISON = 16,
+    WIN = 32
 }
 export declare enum GAME_STATES {
-    NEW = 0,
-    IN_PROGRESS = 1,
-    WAIT_BOT = 2,
-    WAIT_TEAM = 3,
-    FINISHED = 4
+    NEW = 1,
+    IN_PROGRESS = 2,
+    WAIT_BOT = 4,
+    WAIT_TEAM = 8,
+    FINISHED = 16
+}
+export declare enum ACTIONS {
+    PASS = 0,
+    MOVE = 1,
+    JUMP = 2,
+    LOOK = 4
 }
 /**
  * Singleton of Enumerations used by CC2018

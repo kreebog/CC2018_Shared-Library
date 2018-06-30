@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // Cardinal directions used for movement, exits, and other direction-based functions
 var DIRS;
 (function (DIRS) {
+    DIRS[DIRS["NONE"] = 0] = "NONE";
     DIRS[DIRS["NORTH"] = 1] = "NORTH";
     DIRS[DIRS["SOUTH"] = 2] = "SOUTH";
     DIRS[DIRS["EAST"] = 4] = "EAST";
@@ -11,6 +12,7 @@ var DIRS;
 // Tags for cells, avatar, item, and other functions 
 var TAGS;
 (function (TAGS) {
+    TAGS[TAGS["NONE"] = 0] = "NONE";
     TAGS[TAGS["START"] = 1] = "START";
     TAGS[TAGS["FINISH"] = 2] = "FINISH";
     TAGS[TAGS["PATH"] = 4] = "PATH";
@@ -19,22 +21,30 @@ var TAGS;
 // enumeration of possible game results
 var GAME_RESULTS;
 (function (GAME_RESULTS) {
-    GAME_RESULTS[GAME_RESULTS["IN_PROGRESS"] = 0] = "IN_PROGRESS";
-    GAME_RESULTS[GAME_RESULTS["OUT_OF_MOVES"] = 1] = "OUT_OF_MOVES";
-    GAME_RESULTS[GAME_RESULTS["OUT_OF_TIME"] = 2] = "OUT_OF_TIME";
-    GAME_RESULTS[GAME_RESULTS["DEATH_TRAP"] = 3] = "DEATH_TRAP";
-    GAME_RESULTS[GAME_RESULTS["DEATH_POISON"] = 4] = "DEATH_POISON";
-    GAME_RESULTS[GAME_RESULTS["WIN"] = 5] = "WIN";
+    GAME_RESULTS[GAME_RESULTS["IN_PROGRESS"] = 1] = "IN_PROGRESS";
+    GAME_RESULTS[GAME_RESULTS["OUT_OF_MOVES"] = 2] = "OUT_OF_MOVES";
+    GAME_RESULTS[GAME_RESULTS["OUT_OF_TIME"] = 4] = "OUT_OF_TIME";
+    GAME_RESULTS[GAME_RESULTS["DEATH_TRAP"] = 8] = "DEATH_TRAP";
+    GAME_RESULTS[GAME_RESULTS["DEATH_POISON"] = 16] = "DEATH_POISON";
+    GAME_RESULTS[GAME_RESULTS["WIN"] = 32] = "WIN";
 })(GAME_RESULTS = exports.GAME_RESULTS || (exports.GAME_RESULTS = {}));
 // enumeration of possible game states
 var GAME_STATES;
 (function (GAME_STATES) {
-    GAME_STATES[GAME_STATES["NEW"] = 0] = "NEW";
-    GAME_STATES[GAME_STATES["IN_PROGRESS"] = 1] = "IN_PROGRESS";
-    GAME_STATES[GAME_STATES["WAIT_BOT"] = 2] = "WAIT_BOT";
-    GAME_STATES[GAME_STATES["WAIT_TEAM"] = 3] = "WAIT_TEAM";
-    GAME_STATES[GAME_STATES["FINISHED"] = 4] = "FINISHED";
+    GAME_STATES[GAME_STATES["NEW"] = 1] = "NEW";
+    GAME_STATES[GAME_STATES["IN_PROGRESS"] = 2] = "IN_PROGRESS";
+    GAME_STATES[GAME_STATES["WAIT_BOT"] = 4] = "WAIT_BOT";
+    GAME_STATES[GAME_STATES["WAIT_TEAM"] = 8] = "WAIT_TEAM";
+    GAME_STATES[GAME_STATES["FINISHED"] = 16] = "FINISHED";
 })(GAME_STATES = exports.GAME_STATES || (exports.GAME_STATES = {}));
+// enumeration of possible actions
+var ACTIONS;
+(function (ACTIONS) {
+    ACTIONS[ACTIONS["PASS"] = 0] = "PASS";
+    ACTIONS[ACTIONS["MOVE"] = 1] = "MOVE";
+    ACTIONS[ACTIONS["JUMP"] = 2] = "JUMP";
+    ACTIONS[ACTIONS["LOOK"] = 4] = "LOOK";
+})(ACTIONS = exports.ACTIONS || (exports.ACTIONS = {}));
 /**
  * Singleton of Enumerations used by CC2018
  */

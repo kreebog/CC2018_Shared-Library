@@ -19,7 +19,7 @@ let enums = Enums.getInstance();
  */
 export class Cell {
     private x: number = 0;
-    private y: number =0;
+    private y: number = 0;
     private exits: number = 0;
     private tags: number = 0;
     private visits: number = 0;

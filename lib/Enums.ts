@@ -1,15 +1,16 @@
 
 // Cardinal directions used for movement, exits, and other direction-based functions
 export enum DIRS {
-        NORTH = 1,
-        SOUTH = 2,
-        EAST = 4,
-        WEST = 8
+    NONE = 0,    
+    NORTH = 1,
+    SOUTH = 2,
+    EAST = 4,
+    WEST = 8
 }
-
 
 // Tags for cells, avatar, item, and other functions 
 export enum TAGS { 
+    NONE = 0,
     START = 1,
     FINISH = 2, 
     PATH = 4,
@@ -18,21 +19,29 @@ export enum TAGS {
 
 // enumeration of possible game results
 export enum GAME_RESULTS {
-    IN_PROGRESS,
-    OUT_OF_MOVES,
-    OUT_OF_TIME,
-    DEATH_TRAP,
-    DEATH_POISON,
-    WIN
+    IN_PROGRESS = 1,
+    OUT_OF_MOVES = 2,
+    OUT_OF_TIME = 4,
+    DEATH_TRAP = 8,
+    DEATH_POISON = 16,
+    WIN = 32
 }
 
 // enumeration of possible game states
 export enum GAME_STATES {
-    NEW,
-    IN_PROGRESS,
-    WAIT_BOT,
-    WAIT_TEAM,
-    FINISHED
+    NEW = 1,
+    IN_PROGRESS = 2,
+    WAIT_BOT = 4,
+    WAIT_TEAM = 8,
+    FINISHED = 16
+}
+
+// enumeration of possible actions
+export enum ACTIONS {
+    PASS = 0,
+    MOVE = 1,
+    JUMP = 2,
+    LOOK = 4
 }
 
 /**
@@ -100,6 +109,7 @@ export class Enums {
         }
 
         if (ret.length == 0) ret.push('NONE');
+        
         return ret;
     }
 }
