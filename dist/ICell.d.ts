@@ -2,8 +2,8 @@
  * Maze Cell interface
  */
 export interface ICell {
-    x: number;
-    y: number;
+    col: number;
+    row: number;
     exits: number;
     tags: number;
     visits: number;

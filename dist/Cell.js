@@ -29,8 +29,8 @@ class Cell {
         this.tags = tags;
     }
     loadFromJson(data) {
-        this.x = data.x;
-        this.y = data.y;
+        this.x = data.col;
+        this.y = data.row;
         this.exits = data.exits;
         this.tags = data.tags;
         this.visits = data.visits;

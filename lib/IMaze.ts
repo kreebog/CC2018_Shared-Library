@@ -10,4 +10,6 @@ export interface IMaze{
     seed: string;
     textRender: string;
     id:string;
+    startCell:{row:number,col:number};
+    finishCell:{row:number,col:number};
 }

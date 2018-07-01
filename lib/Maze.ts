@@ -26,6 +26,8 @@ export class Maze {
     private seed: string = '';
     private textRender: string = '';
     private id:string = '';
+    private startCell: {row:number, col:number} = {row:0, col:0};
+    private finishCell: {row:number, col:number} = {row:0, col:0};
 
     constructor() {
     }
@@ -38,8 +40,36 @@ export class Maze {
         this.seed = data.seed;
         this.textRender = data.textRender;
         this.id = data.id;
+        this.startCell = data.startCell;
+        this.finishCell = data.finishCell;
 
         return this;
+    }
+
+    /**
+     * populate and return base maze data
+     */
+    public toJSON(): IMaze {
+        let mazeData = {
+            "cells": this.cells,
+            "height" : this.height,
+            "width" : this.width,
+            "seed" : this.seed,
+            "textRender" : this.textRender,
+            "id" : this.id,
+            "startCell": this.startCell,
+            "finishCell": this.finishCell
+        }
+
+        return mazeData;
+    }
+
+    public getStartCell(): {row:number, col:number} {
+        return this.startCell;
+    }
+
+    public getFinishCell(): {row:number, col:number} {
+        return this.finishCell;
     }
 
     public getSeed(): string {
@@ -115,10 +145,14 @@ export class Maze {
         // randomize start and finish locations
         let startCol: number = Math.floor(Math.random() * width);
         let finishCol: number = Math.floor(Math.random() * width);
+
         log.debug(__filename, 'generate()', format('Adding START ([%d][%d]) and FINISH ([%d][%d]) cells.', 0, startCol, height - 1, finishCol));
 
         // tag start and finish columns (start / finish tags force matching exits on edge)
+        this.startCell = {row:0, col:startCol};
         this.cells[0][startCol].addTag(TAGS.START);
+
+        this.finishCell = {row:height-1, col:finishCol};
         this.cells[height - 1][finishCol].addTag(TAGS.FINISH);
 
         // start the carving routine

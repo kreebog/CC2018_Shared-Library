@@ -9,8 +9,22 @@ export declare class Maze {
     private seed;
     private textRender;
     private id;
+    private startCell;
+    private finishCell;
     constructor();
     loadFromJSON(data: IMaze): this;
+    /**
+     * populate and return base maze data
+     */
+    toJSON(): IMaze;
+    getStartCell(): {
+        row: number;
+        col: number;
+    };
+    getFinishCell(): {
+        row: number;
+        col: number;
+    };
     getSeed(): string;
     getHeight(): number;
     getWidth(): number;

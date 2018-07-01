@@ -10,3 +10,4 @@ export { Score } from './Score';
 export { Team } from './Team';
 export { Bot } from './Bot';
 export { Game } from './Game';
+export { Location } from './Location';

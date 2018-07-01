@@ -26,6 +26,8 @@ class Maze {
         this.seed = '';
         this.textRender = '';
         this.id = '';
+        this.startCell = { row: 0, col: 0 };
+        this.finishCell = { row: 0, col: 0 };
     }
     // loads object from values given in json string
     loadFromJSON(data) {
@@ -35,7 +37,31 @@ class Maze {
         this.seed = data.seed;
         this.textRender = data.textRender;
         this.id = data.id;
+        this.startCell = data.startCell;
+        this.finishCell = data.finishCell;
         return this;
+    }
+    /**
+     * populate and return base maze data
+     */
+    toJSON() {
+        let mazeData = {
+            "cells": this.cells,
+            "height": this.height,
+            "width": this.width,
+            "seed": this.seed,
+            "textRender": this.textRender,
+            "id": this.id,
+            "startCell": this.startCell,
+            "finishCell": this.finishCell
+        };
+        return mazeData;
+    }
+    getStartCell() {
+        return this.startCell;
+    }
+    getFinishCell() {
+        return this.finishCell;
     }
     getSeed() {
         return this.seed;
@@ -99,7 +125,9 @@ class Maze {
         let finishCol = Math.floor(Math.random() * width);
         log.debug(__filename, 'generate()', util_1.format('Adding START ([%d][%d]) and FINISH ([%d][%d]) cells.', 0, startCol, height - 1, finishCol));
         // tag start and finish columns (start / finish tags force matching exits on edge)
+        this.startCell = { row: 0, col: startCol };
         this.cells[0][startCol].addTag(Enums_1.TAGS.START);
+        this.finishCell = { row: height - 1, col: finishCol };
         this.cells[height - 1][finishCol].addTag(Enums_1.TAGS.FINISH);
         // start the carving routine
         this.carvePassage(this.cells[0][0]);
