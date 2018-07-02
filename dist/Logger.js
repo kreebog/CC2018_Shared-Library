@@ -38,7 +38,8 @@ class Logger {
     }
     setLogLevel(level) {
         this.logLevel = level;
-        this.info(__filename, 'setLogLevel(' + level + ')', 'Log level set to ' + LOG_LEVELS[level]);
+        let method = 'setLogLevel';
+        console.log('%s%s : %s : %s : %s : Log Level set to %s%s', COLORS.NONE, getTimeStamp(), 'N/A', fileName(__filename), method, this.logLevel, COLORS.NONE);
     }
     debug(file, method, message) {
         if (this.logLevel >= LOG_LEVELS.DEBUG) {

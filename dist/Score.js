@@ -83,7 +83,14 @@ class Score {
         this.scoreKey = util_1.format('%s:%s:%s:%s', this.mazeId, this.teamId, this.gameId, this.gameRound);
     }
     // CANNOT get a parameterized constructor to work! :(
-    constuctor() { }
+    constuctor(mazeId, teamId, gameId, gameRound) {
+        this.mazeId = mazeId;
+        this.teamId = teamId;
+        this.gameId = gameId;
+        this.gameRound = gameRound;
+        // generate the score key
+        this.setScoreKey();
+    }
     loadFromJSON(json) {
         let score = JSON.parse(json);
         this.mazeId = score.mazeId;

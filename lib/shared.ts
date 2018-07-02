@@ -8,6 +8,7 @@ export { Cell } from './Cell';
 export { Enums, DIRS, TAGS, GAME_RESULTS } from './Enums';
 export { IScore } from './IScore';
 export { Score } from './Score';
+export { ITeam } from './ITeam';
 export { Team } from './Team';
 export { Bot } from './Bot';
 export { Game } from './Game';

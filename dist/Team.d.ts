@@ -6,5 +6,8 @@ export declare class Team {
     private name;
     private id;
     private members;
-    constructor(name: string, id: string, members: Array<Bot>);
+    getTeamId(): number;
+    getTeamName(): string;
+    getTeamMembers(): Bot[];
+    constructor(name: string, id: number, members: Array<Bot>);
 }

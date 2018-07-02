@@ -21,6 +21,6 @@ export declare class Score {
     GameResult: GAME_RESULTS;
     readonly ScoreKey: string;
     private setScoreKey;
-    constuctor(): void;
+    constuctor(mazeId: string, teamId: string, gameId: string, gameRound: number): void;
     loadFromJSON(json: string): void;
 }
