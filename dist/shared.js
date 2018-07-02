@@ -19,5 +19,3 @@ var Bot_1 = require("./Bot");
 exports.Bot = Bot_1.Bot;
 var Game_1 = require("./Game");
 exports.Game = Game_1.Game;
-var Location_1 = require("./Location");
-exports.Location = Location_1.Location;

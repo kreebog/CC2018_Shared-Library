@@ -7,42 +7,40 @@ TypeScript Class / Module library for Code Camp 2018.
 
 ### Maze.ts
 Maze Class - The basic maze class with generation and text-rendering functions.
-
-Usage:
-
-```typescript
-import { Maze } from './Maze';
-
-let myMaze = new Maze();
-myMaze.generate(10, 15, 'SuperSimple');
-console.log(myMaze.render());
-```
-
 ### Cell.ts
 Cell Class - The maze itself is a two dimensional array of Cells
-
-Usage: 
-
-```typescript
-import { Maze } from './Maze';
-import { Cell } from './Cell';
-
-let myMaze = new Maze();
-myMaze.generate(10, 15, 'SuperSimple');
-
-let myCell = myMaze.cells[0][0];
-
-console.log(myMaze.render());
-```
-
 ### Enums.ts
+Enumerations module for Code Camp 2018
+### Game.ts
+Enumerations module for Code Camp 2018
+### Score.ts
+Enumerations module for Code Camp 2018
+### Team.ts
+Enumerations module for Code Camp 2018
+### Logger.ts
 Enumerations module for Code Camp 2018
 
 Usage:
 
 ```typescript
-import * as Enums from './Enums';
-let val: Enums.DIRECTIONS = Enums.DIRECTIONS.NORTH;
+import { Bot, Cell, Enums, Game, Logger, Maze, Score, Team, ICell, IMaze, IMazeStub, IScore, ITeam } from 'cc2018-ts-lib'; // import classes
+import { LOG_LEVELS } from 'cc2018-ts-lib/dist/Logger';
 
-console.log(Enums.listSelectedBitNames(Enums.DIRS, val));
+// Using the logger
+let log = Logger.getInstance();
+logger.setLogLevel(LOG_LEVELS.DEBUG);
+log.info(__filename, 'Example()', 'This is an example of how to use cc2018-ts-lib.');
+
+// Using the maze class
+let myMaze = new Maze();
+myMaze.generate(10, 15, 'SuperSimple');
+console.log(myMaze.render());
+
+// getting a specific cell
+let myCell = myMaze.cells[0][0];
+let exits = myCell.getExits();
+
+// using Enums and Enum helper functions 
+console.log(Enums.listSelectedBitNames(Enums.DIRS, exits));
+
 ```

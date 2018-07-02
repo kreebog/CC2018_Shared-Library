@@ -1,17 +1,25 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * Represents a row/col based location within a two-dimensional array
+ */
 class Location {
-    getCol() {
-        return this.col;
+    /**
+     *
+     * @param row number
+     * @param col number
+     */
+    getPos(row, col) {
+        return { row: this.row, col: this.col };
     }
-    setCol(col) {
-        this.col = col;
-    }
-    setRow(row) {
+    /**
+     *
+     * @param row
+     * @param col
+     */
+    setPos(row, col) {
         this.row = row;
-    }
-    getRow() {
-        return this.row;
+        this.col = col;
     }
     constructor(col, row) {
         this.col = col;
