@@ -10,15 +10,15 @@ Maze Class - The basic maze class with generation and text-rendering functions.
 ### Cell.ts
 Cell Class - The maze itself is a two dimensional array of Cells
 ### Enums.ts
-Enumerations module for Code Camp 2018
+Enums Module - Enumerations and helpful functions related to them
 ### Game.ts
-Enumerations module for Code Camp 2018
+Game Class - Manages ongoing game sessions
 ### Score.ts
-Enumerations module for Code Camp 2018
+Score Class - Tracks scores and action/result history
 ### Team.ts
-Enumerations module for Code Camp 2018
+Team Class - Basic team info and a collection of the team's individual AI 
 ### Logger.ts
-Enumerations module for Code Camp 2018
+Logger Module - Simple console logging wrapper to provide consistent, controllable console logging
 
 Usage:
 
