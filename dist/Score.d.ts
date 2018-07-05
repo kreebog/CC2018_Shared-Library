@@ -1,3 +1,4 @@
+import { IScore } from './IScore';
 import { GAME_RESULTS } from './Enums';
 export declare class Score {
     private mazeId;
@@ -9,18 +10,26 @@ export declare class Score {
     private moveCount;
     private backtrackCount;
     private bonusPoints;
-    BacktrackCount: number;
+    getBacktrackCount(): number;
+    setBacktrackCount(value: number): void;
     /**         Accessors         **/
-    MazeId: string;
-    TeamId: string;
-    GameId: string;
-    GameRound: number;
-    MoveCount: number;
-    BackTrackCount: number;
-    BonusPoints: number;
-    GameResult: GAME_RESULTS;
-    readonly ScoreKey: string;
-    private setScoreKey;
-    constuctor(mazeId: string, teamId: string, gameId: string, gameRound: number): void;
-    loadFromJSON(json: string): void;
+    getMazeId(): string;
+    setMazeId(value: string): void;
+    getTeamId(): string;
+    setTeamId(value: string): void;
+    getGameId(): string;
+    setGameId(value: string): void;
+    getGameRound(): number;
+    setGameRound(value: number): void;
+    getMoveCount(): number;
+    setMoveCount(value: number): void;
+    getBackTrackCount(): number;
+    setBackTrackCount(value: number): void;
+    getBonusPoints(): number;
+    setBonusPoints(value: number): void;
+    getGameResult(): GAME_RESULTS;
+    setGameResult(value: GAME_RESULTS): void;
+    getScoreKey(): string;
+    private generateScoreKey;
+    constructor(data?: IScore);
 }

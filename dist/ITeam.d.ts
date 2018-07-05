@@ -1,9 +1,9 @@
 /**
  * Team is an individual code-camp team that includes a collection of Bots
  */
-import { Bot } from './Bot';
+import { IBot } from './IBot';
 export interface ITeam {
     name: string;
-    id: number;
-    members: Array<Bot>;
+    id: string;
+    bots: Array<IBot>;
 }

@@ -1,33 +1,33 @@
 {
-  "name": "cc2018-ts-lib",
-  "version": "1.3.3",
-  "description": "A shared TypeScript library for Code Camp 2018 Development",
-  "main": "dist/shared.js",
-  "types": "dist/shared.d.ts",
-  "scripts": {
-    "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "local-build": "echo hello",
-    "watch": "echo test\necho kat"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kreebog/CC2018_Shared-Library.git"
-  },
-  "author": "James Dean",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/kreebog/CC2018_Shared-Library/issues"
-  },
-  "homepage": "https://github.com/kreebog/CC2018_Shared-Library#readme",
-  "devDependencies": {
-    "@types/node": "^10.5.0",
-    "@types/seedrandom": "^2.4.27",
-    "typescript": "^2.9.2"
-  },
-  "dependencies": {
-    "@types/uuid": "^3.4.3",
-    "seedrandom": "^2.4.3",
-    "uuid": "^3.3.2"
-  }
+    "name": "cc2018-ts-lib",
+    "version": "1.3.3",
+    "description": "A shared TypeScript library for Code Camp 2018 Development",
+    "main": "dist/shared.js",
+    "types": "dist/shared.d.ts",
+    "scripts": {
+        "build": "tsc",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "local-build": "echo hello",
+        "watch": "echo test\necho kat"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/kreebog/CC2018_Shared-Library.git"
+    },
+    "author": "James Dean",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/kreebog/CC2018_Shared-Library/issues"
+    },
+    "homepage": "https://github.com/kreebog/CC2018_Shared-Library#readme",
+    "devDependencies": {
+        "@types/node": "^10.5.0",
+        "@types/seedrandom": "^2.4.27",
+        "typescript": "^2.9.2"
+    },
+    "dependencies": {
+        "@types/uuid": "^3.4.3",
+        "seedrandom": "^2.4.3",
+        "uuid": "^3.3.2"
+    }
 }

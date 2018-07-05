@@ -1,116 +1,127 @@
 import { format } from 'util';
+import { IScore } from './IScore';
 import { GAME_RESULTS } from './Enums';
 
 export class Score {
     // Primary Key = mazeId:teamId:gameId:gameRound
-    private mazeId: string = '';
-    private teamId: string = '';
-    private gameId: string = '';
-    private gameRound: number = 0;
-    private scoreKey: string = '';
+    private mazeId: string;
+    private teamId: string;
+    private gameId: string;
+    private gameRound: number;
+    private scoreKey: string;
 
-    // the final result of the game 
+    // the final result of the game
     private gameResult: GAME_RESULTS = GAME_RESULTS.IN_PROGRESS;
 
     // various score elements
-    private moveCount: number = 0;
-    private backtrackCount: number = 0;
-    private bonusPoints: number = 0;
-    
-    public get BacktrackCount(): number {
+    private moveCount: number;
+    private backtrackCount: number;
+    private bonusPoints: number;
+
+    public getBacktrackCount(): number {
         return this.backtrackCount;
     }
-    public set BacktrackCount(value: number) {
+    public setBacktrackCount(value: number) {
         this.backtrackCount = value;
     }
 
     /**         Accessors         **/
-    public get MazeId(): string {
+    public getMazeId(): string {
         return this.mazeId;
     }
-    public set MazeId(value: string) {
+    public setMazeId(value: string) {
         this.mazeId = value;
-        this.setScoreKey();
+        this.scoreKey = this.generateScoreKey();
     }
 
-    public get TeamId(): string {
+    public getTeamId(): string {
         return this.teamId;
     }
-    public set TeamId(value: string) {
+    public setTeamId(value: string) {
         this.teamId = value;
-        this.setScoreKey();
+        this.scoreKey = this.generateScoreKey();
     }
 
-    public get GameId(): string {
+    public getGameId(): string {
         return this.gameId;
     }
-    public set GameId(value: string) {
+    public setGameId(value: string) {
         this.gameId = value;
-        this.setScoreKey();
+        this.scoreKey = this.generateScoreKey();
     }
 
-    public get GameRound(): number {
+    public getGameRound(): number {
         return this.gameRound;
     }
-    public set GameRound(value: number) {
+    public setGameRound(value: number) {
         this.gameRound = value;
-        this.setScoreKey();
+        this.scoreKey = this.generateScoreKey();
     }
-    
-    public get MoveCount(): number {
+
+    public getMoveCount(): number {
         return this.moveCount;
     }
-    public set MoveCount(value: number) {
+    public setMoveCount(value: number) {
         this.moveCount = value;
     }
 
-    public get BackTrackCount(): number {
+    public getBackTrackCount(): number {
         return this.backtrackCount;
     }
-    public set BackTrackCount(value: number) {
+    public setBackTrackCount(value: number) {
         this.backtrackCount = value;
     }
-    
-    public get BonusPoints(): number {
+
+    public getBonusPoints(): number {
         return this.bonusPoints;
     }
-    public set BonusPoints(value: number) {
+    public setBonusPoints(value: number) {
         this.bonusPoints = value;
     }
-    
-    public get GameResult(): GAME_RESULTS {
+
+    public getGameResult(): GAME_RESULTS {
         return this.gameResult;
     }
-    public set GameResult(value: GAME_RESULTS) {
+    public setGameResult(value: GAME_RESULTS) {
         this.gameResult = value;
     }
 
-    public get ScoreKey(): string {
+    public getScoreKey(): string {
         return this.scoreKey;
     }
-    private setScoreKey() {
-        this.scoreKey = format('%s:%s:%s:%s', this.mazeId, this.teamId, this.gameId, this.gameRound);
+    private generateScoreKey(): string {
+        return format('%s:%s:%s:%s', this.mazeId, this.teamId, this.gameId, this.gameRound);
     }
 
-    // CANNOT get a parameterized constructor to work! :(
-    constuctor(mazeId: string, teamId: string, gameId: string, gameRound: number) {
-        this.mazeId = mazeId;
-        this.teamId = teamId;
-        this.gameId = gameId;
-        this.gameRound = gameRound;
-        
-        // generate the score key
-        this.setScoreKey();
-    }
+    constructor(data?: IScore) {
+        if (data !== undefined) {
+            this.mazeId = data.mazeId;
+            this.teamId = data.teamId;
+            this.gameId = data.gameId;
+            this.gameRound = data.gameRound;
 
+            // generate the score key from maze, team, game, and round
+            this.scoreKey = this.generateScoreKey();
 
+            // set the current score values
+            this.gameResult = data.gameResult;
+            this.moveCount = data.moveCount;
+            this.bonusPoints = data.bonusPoints;
+            this.backtrackCount = data.backtrackCount;
+        } else {
+            this.mazeId = '';
+            this.teamId = '';
+            this.gameId = '';
+            this.gameRound = 0;
 
-    public loadFromJSON(json: string) {
-        let score: Score = JSON.parse(json);
-        this.mazeId = score.mazeId;
-        this.teamId = score.teamId;
-        this.gameId = score.gameId;
-        this.gameRound = score.gameRound;
-        this.scoreKey = format('%s:%s:%s:%s', score.mazeId, score.teamId, score.gameId, score.gameRound);
+            // generate the score key from maze, team, game, and round
+            this.scoreKey = 'SCORE_KEY_NOT_SET';
+
+            // set the current score values
+            this.gameResult = GAME_RESULTS.IN_PROGRESS;
+            this.moveCount = 0;
+            this.bonusPoints = 0;
+            this.backtrackCount = 0;
+        }
     }
 }

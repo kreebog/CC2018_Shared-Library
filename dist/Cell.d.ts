@@ -1,5 +1,6 @@
-import { DIRS, TAGS } from './Enums';
-import { ICell } from './ICell';
+import { DIRS, TAGS } from "./Enums";
+import { ICell } from "./ICell";
+import { Pos } from "./Pos";
 /**
  * Represents a single cell in a maze
  */
@@ -55,10 +56,7 @@ export declare class Cell {
     /**
      * Returns an array representing the cells grid coordinates (y, x)
      */
-    getLocation(): {
-        y: number;
-        x: number;
-    };
+    getPos(): Pos;
     /**
      * Set the cell's grid coordinates
      * @param x

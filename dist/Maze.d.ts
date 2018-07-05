@@ -1,4 +1,6 @@
 import { IMaze } from './IMaze';
+import Cell from './Cell';
+import { Pos } from './Pos';
 /**
  * Maze class - the heart of everything!
  */
@@ -11,24 +13,26 @@ export declare class Maze {
     private id;
     private startCell;
     private finishCell;
-    constructor();
+    /**
+     * Instantiates or new or pre-loaded Maze object
+     * @param data - IMaze interface prefilled with required data
+     */
+    constructor(data?: IMaze);
+    /**
+     * @deprecated - Use constructor [ new Maze(data:IMaze) ] instead.
+     */
     loadFromJSON(data: IMaze): this;
     /**
      * populate and return base maze data
      */
     toJSON(): IMaze;
-    getStartCell(): {
-        row: number;
-        col: number;
-    };
-    getFinishCell(): {
-        row: number;
-        col: number;
-    };
+    getStartCell(): Pos;
+    getFinishCell(): Pos;
     getSeed(): string;
     getHeight(): number;
     getWidth(): number;
     getId(): string;
+    getCell(row: number, col: number): Cell;
     /**
      * Generates a new maze based on the given parameters
      * @param height - The height of the maze grid
