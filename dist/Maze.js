@@ -9,9 +9,12 @@ const Logger_1 = require("./Logger");
 const Enums_1 = require("./Enums");
 const Cell_1 = __importDefault(require("./Cell"));
 const Pos_1 = require("./Pos");
-let carveDepth = 0; // tracks the level of recursion during path carving
-let maxCarveDepth = 0; // tracks the deepest level of carve recursion seen
+let recurseDepth = 0; // tracks the level of recursion during path carving
+let maxRecurseDepth = 0; // tracks the deepest level of carve recursion seen
 let startGenTime = 0; // used to determine time spent generating a maze
+// values for the maze solver
+let solutionPath; // used for the maze solver
+let playerPos;
 // don't let the maze get too big or the server will run out of memory during generation
 const MAX_CELL_COUNT = 2500;
 // logger and enum singletons
@@ -34,6 +37,7 @@ class Maze {
             this.id = data.id;
             this.startCell = data.startCell;
             this.finishCell = data.finishCell;
+            this.shortestPathLength = data.shortestPathLength;
         }
         else {
             this.cells = new Array();
@@ -42,8 +46,9 @@ class Maze {
             this.seed = '';
             this.textRender = '';
             this.id = '';
-            this.startCell = { row: 0, col: 0 };
-            this.finishCell = { row: 0, col: 0 };
+            this.startCell = new Pos_1.Pos(0, 0);
+            this.finishCell = new Pos_1.Pos(0, 0);
+            this.shortestPathLength = 0;
         }
     }
     /**
@@ -58,6 +63,7 @@ class Maze {
         this.id = data.id;
         this.startCell = data.startCell;
         this.finishCell = data.finishCell;
+        this.shortestPathLength = data.shortestPathLength;
         log.warn(__filename, 'loadFromJSON()', 'FUNCTION DEPRECATED.  Use constructor(data: IMaze) instead.');
         return this;
     }
@@ -73,7 +79,8 @@ class Maze {
             textRender: this.textRender,
             id: this.id,
             startCell: this.startCell,
-            finishCell: this.finishCell
+            finishCell: this.finishCell,
+            shortestPathLength: this.shortestPathLength
         };
         return mazeData;
     }
@@ -95,7 +102,15 @@ class Maze {
     getId() {
         return this.id;
     }
+    getShortestPathLength() {
+        return this.shortestPathLength;
+    }
     getCell(row, col) {
+        if (row < 0 || row > this.cells.length || col < 0 || col > this.cells[0].length) {
+            log.warn(__filename, util_1.format('getCell(%d, %d', row, col), 'Invalid cell coordinates given.');
+            throw new Error(util_1.format('Index Out of Bounds - Invalid cell coordinates given: row:%d, col:%d.'));
+        }
+        // return it anyway
         return this.cells[row][col];
     }
     /**
@@ -154,14 +169,19 @@ class Maze {
         this.cells[height - 1][finishCol].addTag(Enums_1.TAGS.FINISH);
         // start the carving routine
         this.carvePassage(this.cells[0][0]);
+        // mark the solution path
+        recurseDepth = 0;
+        maxRecurseDepth = 0;
+        // now solve the maze and tag the path
+        this.solveAndTag();
         // render the maze so the text rendering is set
         this.render();
-        log.info(__filename, 'generate()', util_1.format('Generation Complete: Time=%dms, Recursion=%d, MazeID=%s', Date.now() - startGenTime, maxCarveDepth, this.getId()));
+        log.info(__filename, 'generate()', util_1.format('Generation Complete: Time=%dms, Recursion=%d, MazeID=%s', Date.now() - startGenTime, maxRecurseDepth, this.getId()));
         return this;
     }
     carvePassage(cell) {
-        carveDepth++;
-        log.debug(__filename, 'carvePassage()', util_1.format('Recursion: %d. Carving STARTED for cell [%d][%d].', carveDepth, cell.getPos().row, cell.getPos().col));
+        recurseDepth++;
+        log.debug(__filename, 'carvePassage()', util_1.format('Recursion: %d. Carving STARTED for cell [%d][%d].', recurseDepth, cell.getPos().row, cell.getPos().col));
         // randomly sort an array of bitwise directional values (see also: Enums.Dirs)
         let dirs = [1, 2, 4, 8].sort(function (a, b) {
             return 0.5 - Math.random();
@@ -194,12 +214,12 @@ class Maze {
             }
         }
         // update carve depth counters
-        if (carveDepth > maxCarveDepth) {
-            maxCarveDepth = carveDepth;
+        if (recurseDepth > maxRecurseDepth) {
+            maxRecurseDepth = recurseDepth;
         }
         // exiting the function relieves one level of recursion
-        carveDepth--;
-        log.trace(__filename, 'carvePassage()', util_1.format('Recursion: %d. Carve COMPLETED for cell [%d][%d].', carveDepth, cell.getPos().row, cell.getPos().col));
+        recurseDepth--;
+        log.trace(__filename, 'carvePassage()', util_1.format('Recursion: %d. Carve COMPLETED for cell [%d][%d].', recurseDepth, cell.getPos().row, cell.getPos().col));
     }
     /**
      * Returns a text rendering of the maze as a grid of 3x3
@@ -213,10 +233,11 @@ class Maze {
         const H_DOOR = '+   ';
         const V_DOOR = ' ';
         const CENTER = '   ';
-        const SOLUTION = ' = ';
+        const SOLUTION = ' # ';
         const ROW_END = '+';
         const CARVED = ' . ';
         const AVATAR = ' @ ';
+        // TODO: Turn back on render caching after solver work is completed
         if (this.textRender.length > 0) {
             return this.textRender;
         }
@@ -246,11 +267,11 @@ class Maze {
                                 row += !!(cell.getExits() & Enums_1.DIRS.WEST) ? V_DOOR : V_WALL;
                             }
                             // render room center - check for cell properties and render appropriately
-                            if (!!(cell.getTags() & Enums_1.TAGS.CARVED)) {
-                                row += CARVED;
-                            }
-                            else if (!!(cell.getTags() & Enums_1.TAGS.PATH)) {
+                            if (!!(cell.getTags() & Enums_1.TAGS.PATH)) {
                                 row += SOLUTION;
+                            }
+                            else if (!!(cell.getTags() & Enums_1.TAGS.CARVED)) {
+                                row += CARVED;
                             }
                             else {
                                 row += CENTER;
@@ -281,5 +302,94 @@ class Maze {
         this.textRender = textMaze.toString();
         return textMaze;
     }
+    /**
+     * Wraps the recursive tagSolution function
+     * and initializes tracking variables
+     */
+    solveAndTag() {
+        playerPos = new Pos_1.Pos(this.startCell.row, this.startCell.col);
+        solutionPath = new Array();
+        this.tagSolution(playerPos, 0);
+    }
+    /**
+     *
+     * @param cellPos
+     * @param pathId
+     */
+    tagSolution(cellPos, pathId) {
+        recurseDepth++;
+        let cell;
+        log.trace(__filename, util_1.format('tagSolution(%s)', cellPos.toString()), util_1.format('R:%d P:%s -- Solve pass started.', recurseDepth, pathId));
+        // Attempt to get the cell - if it errors we can return from this call
+        try {
+            cell = this.getCell(cellPos.row, cellPos.col);
+        }
+        catch (err) {
+            log.warn(__filename, util_1.format('tagSolution(%s)', cellPos.toString()), util_1.format('R:%d P:%s -- Invalid cell.', recurseDepth, pathId));
+            recurseDepth--;
+            return;
+        }
+        // add the cell to the list of explored cells
+        solutionPath.push(cell.getPos().toString());
+        // helpful vars
+        let dirs = [Enums_1.DIRS.NORTH, Enums_1.DIRS.SOUTH, Enums_1.DIRS.EAST, Enums_1.DIRS.WEST];
+        let moveMade = false;
+        if (playerPos.equals(this.finishCell)) {
+            log.debug(__filename, util_1.format('tagSolution(%s)', cellPos.toString()), util_1.format('R:%d P:%s -- WINNING PATH!', recurseDepth, pathId));
+        }
+        else {
+            // update player location, but don't move it once it finds the finish
+            playerPos.col = cell.getPos().col;
+            playerPos.row = cell.getPos().row;
+            dirs.forEach(dir => {
+                let cLoc = cell.getPos(); // current position
+                let nLoc = new Pos_1.Pos(cLoc.row, cLoc.col); // next position
+                switch (dir) {
+                    case Enums_1.DIRS.NORTH:
+                        // start always has an exit on the north wall, but it's not usable
+                        if (!!(cell.getExits() & Enums_1.DIRS.NORTH) && !(cell.getTags() & Enums_1.TAGS.START))
+                            nLoc.row -= 1;
+                        break;
+                    case Enums_1.DIRS.SOUTH:
+                        if (!!(cell.getExits() & Enums_1.DIRS.SOUTH) && !(cell.getTags() & Enums_1.TAGS.FINISH))
+                            nLoc.row += 1;
+                        break;
+                    case Enums_1.DIRS.EAST:
+                        if (!!(cell.getExits() & Enums_1.DIRS.EAST))
+                            nLoc.col += 1;
+                        break;
+                    case Enums_1.DIRS.WEST:
+                        if (!!(cell.getExits() & Enums_1.DIRS.WEST))
+                            nLoc.col -= 1;
+                        break;
+                }
+                // ensure that a move is being made, that the cell is not visited, and that we aren't already at the finish
+                if (!nLoc.equals(cLoc) && solutionPath.indexOf(nLoc.toString()) < 0) {
+                    // update the path ID if moving into a new branch
+                    if (moveMade) {
+                        pathId++;
+                        log.debug(__filename, util_1.format('tagSolution(%s)', cellPos.toString()), util_1.format('R:%d P:%s -- Moving %s [NEW PATH] to cell %s.', recurseDepth, pathId, Enums_1.DIRS[dir], nLoc.toString()));
+                    }
+                    else {
+                        log.debug(__filename, util_1.format('tagSolution(%s)', cellPos.toString()), util_1.format('R:%d P:%s -- Moving %s [CONTINUING PATH] to cell %s.', recurseDepth, pathId, Enums_1.DIRS[dir], nLoc.toString()));
+                    }
+                    if (!playerPos.equals(this.finishCell))
+                        this.tagSolution(nLoc, pathId);
+                    // mark that a move was made
+                    moveMade = true;
+                }
+            });
+            if (!moveMade) {
+                log.debug(__filename, util_1.format('tagSolution(%s)', cellPos.toString()), util_1.format('R:%d P:%s -- DEAD_END: Cannot move from cell %s', recurseDepth, pathId, cell.getPos().toString()));
+            }
+        }
+        if (playerPos.equals(this.finishCell)) {
+            log.debug(__filename, util_1.format('tagSolution(%s)', cellPos.toString()), util_1.format('R:%d P:%s -- Adding PATH tag to %s.', recurseDepth, pathId, cell.getPos().toString()));
+            this.shortestPathLength++;
+            cell.addTag(Enums_1.TAGS.PATH);
+        }
+        recurseDepth--;
+        log.debug(__filename, util_1.format('tagSolution(%s)', cellPos.toString()), util_1.format('R:%d P:%s -- Path complete.', recurseDepth, pathId));
+    } // end tagSolution()
 }
 exports.Maze = Maze;

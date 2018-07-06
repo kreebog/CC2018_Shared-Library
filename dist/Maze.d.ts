@@ -13,6 +13,7 @@ export declare class Maze {
     private id;
     private startCell;
     private finishCell;
+    private shortestPathLength;
     /**
      * Instantiates or new or pre-loaded Maze object
      * @param data - IMaze interface prefilled with required data
@@ -32,6 +33,7 @@ export declare class Maze {
     getHeight(): number;
     getWidth(): number;
     getId(): string;
+    getShortestPathLength(): number;
     getCell(row: number, col: number): Cell;
     /**
      * Generates a new maze based on the given parameters
@@ -46,4 +48,15 @@ export declare class Maze {
      * character blocks.
      */
     render(): string;
+    /**
+     * Wraps the recursive tagSolution function
+     * and initializes tracking variables
+     */
+    solveAndTag(): void;
+    /**
+     *
+     * @param cellPos
+     * @param pathId
+     */
+    private tagSolution;
 }
