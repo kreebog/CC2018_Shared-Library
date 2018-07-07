@@ -32,4 +32,5 @@ export declare class Score {
     getScoreKey(): string;
     private generateScoreKey;
     constructor(data?: IScore);
+    toJSON(): IScore;
 }

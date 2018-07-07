@@ -98,5 +98,19 @@ class Score {
     generateScoreKey() {
         return util_1.format('%s:%s:%s:%s', this.mazeId, this.teamId, this.gameId, this.gameRound);
     }
+    toJSON() {
+        let data = {
+            mazeId: this.mazeId,
+            teamId: this.teamId,
+            gameId: this.gameId,
+            gameRound: this.gameRound,
+            scoreKey: this.scoreKey,
+            gameResult: this.gameResult,
+            moveCount: this.moveCount,
+            backtrackCount: this.backtrackCount,
+            bonusPoints: this.bonusPoints
+        };
+        return data;
+    }
 }
 exports.Score = Score;

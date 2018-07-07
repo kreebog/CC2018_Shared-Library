@@ -33,4 +33,13 @@ export class Team {
             this.bots = new Array<IBot>();
         }
     }
+
+    public toJSON(): ITeam {
+        let data: ITeam = {
+            name: this.name,
+            id: this.id,
+            bots: this.bots
+        };
+        return data;
+    }
 }

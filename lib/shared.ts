@@ -12,5 +12,7 @@ export { Team } from './Team';
 export { IBot } from './IBot';
 export { Bot } from './Bot';
 export { Game } from './Game';
+export { IGameStub } from './IGameStub';
 export { Pos } from './Pos';
 export { IPos } from './IPos';
+export { IEngram } from './IEngram';

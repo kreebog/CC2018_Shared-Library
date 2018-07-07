@@ -1,4 +1,5 @@
 import { IMaze } from './IMaze';
+import { IMazeStub } from './IMazeStub';
 import Cell from './Cell';
 import { Pos } from './Pos';
 /**
@@ -27,6 +28,7 @@ export declare class Maze {
      * populate and return base maze data
      */
     toJSON(): IMaze;
+    getMazeStub(): IMazeStub;
     getStartCell(): Pos;
     getFinishCell(): Pos;
     getSeed(): string;

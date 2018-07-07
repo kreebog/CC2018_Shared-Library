@@ -29,5 +29,13 @@ class Team {
             this.bots = new Array();
         }
     }
+    toJSON() {
+        let data = {
+            name: this.name,
+            id: this.id,
+            bots: this.bots
+        };
+        return data;
+    }
 }
 exports.Team = Team;

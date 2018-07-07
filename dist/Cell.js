@@ -37,9 +37,21 @@ class Cell {
         this.visits = data.visits;
         this.lastVisit = data.lastVisit;
     }
+    toJSON() {
+        let cellData = {
+            row: this.getPos().row,
+            col: this.getPos().col,
+            exits: this.exits,
+            tags: this.tags,
+            visits: this.visits,
+            lastVisit: this.lastVisit,
+            notes: this.notes
+        };
+        return cellData;
+    }
     addNote(note) {
         this.notes.push(note);
-        log.debug(__filename, "addNote()", "Note added to cell: " + note);
+        log.debug(__filename, 'addNote()', 'Note added to cell: ' + note);
     }
     getNotes() {
         return this.notes;
@@ -109,10 +121,10 @@ class Cell {
      * @returns boolean
      */
     setExit(mode, dir, cells) {
-        let modeName = mode == FN_MODES.ADD ? "ADD" : "REMOVE";
+        let modeName = mode == FN_MODES.ADD ? 'ADD' : 'REMOVE';
         let dirName = Enums_1.DIRS[dir];
         let validMove = true; // only set to true if valid adjoining cell exits to open an exit to
-        log.debug(__filename, util_1.format("setExit(%s, %s)", modeName, dirName), util_1.format("Setting exits in cell [%d][%d]. Existing exits: %s.", this.y, this.x, this.listExits()));
+        log.debug(__filename, util_1.format('setExit(%s, %s)', modeName, dirName), util_1.format('Setting exits in cell [%d][%d]. Existing exits: %s.', this.y, this.x, this.listExits()));
         if (mode == FN_MODES.ADD ? !(this.exits & dir) : !!(this.exits & dir)) {
             let nLoc = { y: -1, x: -1 }; // location adjoining cell - must open exit on both sides
             switch (dir) {
@@ -136,17 +148,16 @@ class Cell {
             if (validMove) {
                 let neighbor = cells[nLoc.y][nLoc.x];
                 this.exits = mode == FN_MODES.ADD ? (this.exits += dir) : (this.exits -= dir);
-                log.debug(__filename, util_1.format("setExit(%s, %s)", modeName, dirName), util_1.format("Exits set in cell [%d][%d]. Exits: ", this.y, this.x, this.listExits()));
-                neighbor.exits =
-                    mode == FN_MODES.ADD ? (neighbor.exits += this.reverseDir(dir)) : (neighbor.exits -= dir);
-                log.debug(__filename, util_1.format("setExit(%s, %s)", modeName, dirName), util_1.format("Adjoining exits set in cell [%d][%d]. Exits: ", neighbor.y, neighbor.x, neighbor.listExits()));
+                log.debug(__filename, util_1.format('setExit(%s, %s)', modeName, dirName), util_1.format('Exits set in cell [%d][%d]. Exits: ', this.y, this.x, this.listExits()));
+                neighbor.exits = mode == FN_MODES.ADD ? (neighbor.exits += this.reverseDir(dir)) : (neighbor.exits -= dir);
+                log.debug(__filename, util_1.format('setExit(%s, %s)', modeName, dirName), util_1.format('Adjoining exits set in cell [%d][%d]. Exits: ', neighbor.y, neighbor.x, neighbor.listExits()));
             }
             else {
-                log.warn(__filename, util_1.format("setExit(%s, %s)", modeName, dirName), util_1.format("Invalid adjoining cell location: [%d][%d]", nLoc.y, nLoc.x));
+                log.warn(__filename, util_1.format('setExit(%s, %s)', modeName, dirName), util_1.format('Invalid adjoining cell location: [%d][%d]', nLoc.y, nLoc.x));
             }
         }
         else {
-            log.warn(__filename, util_1.format("setExit(%s, %s)", modeName, dirName), util_1.format("Invalid action in cell [%d][%d]. Exit %s. Cell exits: %s", this.y, this.x, mode == FN_MODES.ADD ? "already exists" : "not found", this.listExits()));
+            log.warn(__filename, util_1.format('setExit(%s, %s)', modeName, dirName), util_1.format('Invalid action in cell [%d][%d]. Exit %s. Cell exits: %s', this.y, this.x, mode == FN_MODES.ADD ? 'already exists' : 'not found', this.listExits()));
         }
         return validMove;
     }
@@ -190,21 +201,21 @@ class Cell {
                     // force north exit on start cell - do not use addExit() for this!
                     if (!(this.exits & Enums_1.DIRS.NORTH)) {
                         this.exits += Enums_1.DIRS.NORTH;
-                        log.debug(__filename, "addTag(" + tagName + ")", util_1.format("[%d][%d] has %s tag. Forcing NORTH exit through edge. Cell exits: %s", this.y, this.x, tagName, this.listExits()));
+                        log.debug(__filename, 'addTag(' + tagName + ')', util_1.format('[%d][%d] has %s tag. Forcing NORTH exit through edge. Cell exits: %s', this.y, this.x, tagName, this.listExits()));
                     }
                     break;
                 case Enums_1.TAGS.FINISH:
                     // force north exit on finish cell - do not use addExit() for this!
                     if (!(this.exits & Enums_1.DIRS.SOUTH)) {
                         this.exits += Enums_1.DIRS.SOUTH;
-                        log.debug(__filename, "addTag(" + tagName + ")", util_1.format("[%d][%d] has %s tag. Forcing NORTH exit through edge. Cell exits: %s", this.y, this.x, tagName, this.listExits()));
+                        log.debug(__filename, 'addTag(' + tagName + ')', util_1.format('[%d][%d] has %s tag. Forcing NORTH exit through edge. Cell exits: %s', this.y, this.x, tagName, this.listExits()));
                     }
                     break;
             }
-            log.debug(__filename, "addTag(" + tagName + ")", util_1.format("Tag %s added to cell [%d][%d]. Current tags: %s.", tagName, this.y, this.x, this.listTags()));
+            log.debug(__filename, 'addTag(' + tagName + ')', util_1.format('Tag %s added to cell [%d][%d]. Current tags: %s.', tagName, this.y, this.x, this.listTags()));
         }
         else {
-            log.warn(__filename, "addTag(" + tagName + ")", util_1.format("Tag %s already exists in cell [%d][%d]. Current tags: %s.", tagName, this.y, this.x, this.listTags()));
+            log.warn(__filename, 'addTag(' + tagName + ')', util_1.format('Tag %s already exists in cell [%d][%d]. Current tags: %s.', tagName, this.y, this.x, this.listTags()));
         }
     }
     /**
@@ -215,10 +226,10 @@ class Cell {
         let tagName = Enums_1.TAGS[tag];
         if (!!(this.tags & tag)) {
             this.tags -= tag;
-            log.debug(__filename, "removeTag(" + tagName + ")", util_1.format("Tag %s removed from cell [%d][%d]. Current tags: %s.", tagName, this.y, this.x, this.listTags()));
+            log.debug(__filename, 'removeTag(' + tagName + ')', util_1.format('Tag %s removed from cell [%d][%d]. Current tags: %s.', tagName, this.y, this.x, this.listTags()));
         }
         else {
-            log.warn(__filename, "removeTag(" + tagName + ")", util_1.format("Tag %s not found in cell [%d][%d]. Current tags: %s.", tagName, this.y, this.x, this.listTags()));
+            log.warn(__filename, 'removeTag(' + tagName + ')', util_1.format('Tag %s not found in cell [%d][%d]. Current tags: %s.', tagName, this.y, this.x, this.listTags()));
         }
     }
 }

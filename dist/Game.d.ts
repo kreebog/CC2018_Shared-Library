@@ -1,8 +1,9 @@
-import { DIRS, GAME_STATES, GAME_RESULTS } from "./Enums";
-import { IMaze } from "./IMaze";
-import { Team } from "./Team";
-import { Score } from "./Score";
-import { Pos } from "./Pos";
+import { DIRS, GAME_STATES, GAME_RESULTS } from './Enums';
+import { IMaze } from './IMaze';
+import { Team } from './Team';
+import { Score } from './Score';
+import { Pos } from './Pos';
+import { IGameStub } from './IGameStub';
 export declare class Game {
     private id;
     private state;
@@ -21,5 +22,6 @@ export declare class Game {
     getPlayerPos(): Pos;
     doMove(dir: DIRS): void;
     isOpenDir(dir: DIRS): boolean;
+    getGameStub(): IGameStub;
     private updatePos;
 }

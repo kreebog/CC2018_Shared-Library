@@ -1,14 +1,15 @@
-import { format } from "util";
-import { Enums } from "./Enums";
-import { DIRS, TAGS, GAME_STATES, GAME_RESULTS } from "./Enums";
-import { Maze } from "./Maze";
-import { IMaze } from "./IMaze";
-import { Team } from "./Team";
-import { Score } from "./Score";
-import { Logger } from "./Logger";
-import { Pos } from "./Pos";
+import { format } from 'util';
+import { Enums } from './Enums';
+import { DIRS, TAGS, GAME_STATES, GAME_RESULTS } from './Enums';
+import { Maze } from './Maze';
+import { IMaze } from './IMaze';
+import { Team } from './Team';
+import { Score } from './Score';
+import { Logger } from './Logger';
+import { Pos } from './Pos';
+import { IGameStub } from './IGameStub';
 
-let uuid = require("uuid/v4");
+let uuid = require('uuid/v4');
 
 const enums = Enums.getInstance();
 const log = Logger.getInstance();
@@ -23,8 +24,7 @@ export class Game {
     private playerPos: Pos;
 
     constructor(mazeData: IMaze, team: Team, score: Score) {
-        //TODO: Re-enable this!  this.id = uuid();
-        this.id = "AAA";
+        this.id = uuid();
         this.state = GAME_STATES.NEW;
         this.result = GAME_RESULTS.IN_PROGRESS;
         this.maze = new Maze().loadFromJSON(mazeData);
@@ -32,7 +32,7 @@ export class Game {
         this.team = team;
         this.score = new Score();
 
-        log.debug(__filename, "constructor()", "New Game instance created.  Id: " + this.id);
+        log.debug(__filename, 'constructor()', 'New Game instance created.  Id: ' + this.id);
     }
 
     public getId() {
@@ -64,16 +64,7 @@ export class Game {
     }
 
     public doMove(dir: DIRS) {
-        log.debug(
-            __filename,
-            format("doMove(%d)", dir),
-            format(
-                "Attempting player move to the %s from cell at %d, %d ",
-                DIRS[dir],
-                this.playerPos.row,
-                this.playerPos.col
-            )
-        );
+        log.debug(__filename, format('doMove(%d)', dir), format('Attempting player move to the %s from cell at %d, %d ', DIRS[dir], this.playerPos.row, this.playerPos.col));
         if (this.isOpenDir(dir)) {
             this.playerPos;
         }
@@ -89,8 +80,21 @@ export class Game {
         if (dir == DIRS.EAST) open = cLoc.col < this.maze.getWidth() - 1 && !!(cell.getExits() & dir);
         if (dir == DIRS.WEST) open = cLoc.col > 0 && !!(cell.getExits() & dir);
 
-        log.debug(__filename, format("isOpenDir(%d)", dir), format("Open exit %s from cell at %d, %d?  %s", open));
+        log.debug(__filename, format('isOpenDir(%d)', dir), format('Open exit %s from cell at %d, %d?  %s', open));
         return open;
+    }
+
+    public getGameStub(): IGameStub {
+        let stub: IGameStub = {
+            gameId: this.id,
+            gameState: this.state,
+            mazeStub: this.maze.getMazeStub(),
+            team: this.team.toJSON(),
+            score: this.score.toJSON(),
+            url: ''
+        };
+
+        return stub;
     }
 
     private updatePos(pos: Pos, dir: DIRS): Pos {

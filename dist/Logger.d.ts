@@ -12,6 +12,7 @@ export declare class Logger {
     private constructor();
     static getInstance(): Logger;
     setLogLevel(level: LOG_LEVELS): void;
+    getLogLevel(): LOG_LEVELS;
     debug(file: string, method: string, message: string): void;
     error(file: string, method: string, message: string): void;
     warn(file: string, method: string, message: string): void;

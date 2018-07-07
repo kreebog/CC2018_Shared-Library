@@ -1,6 +1,6 @@
-import { DIRS, TAGS } from "./Enums";
-import { ICell } from "./ICell";
-import { Pos } from "./Pos";
+import { DIRS, TAGS } from './Enums';
+import { ICell } from './ICell';
+import { Pos } from './Pos';
 /**
  * Represents a single cell in a maze
  */
@@ -14,6 +14,7 @@ export declare class Cell {
     private notes;
     constructor(exits: number, tags: number);
     loadFromJson(data: ICell): void;
+    toJSON(): ICell;
     addNote(note: string): void;
     getNotes(): string[];
     addVisit(moveNumber: number): void;

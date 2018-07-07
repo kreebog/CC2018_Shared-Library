@@ -8,4 +8,5 @@ export declare class Team {
     getName(): string;
     getBots(): IBot[];
     constructor(data?: ITeam);
+    toJSON(): ITeam;
 }

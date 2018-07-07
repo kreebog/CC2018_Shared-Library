@@ -84,6 +84,16 @@ class Maze {
         };
         return mazeData;
     }
+    getMazeStub() {
+        let stub = {
+            id: this.id,
+            height: this.height,
+            width: this.width,
+            seed: this.seed,
+            url: ''
+        };
+        return stub;
+    }
     getStartCell() {
         return this.startCell;
     }

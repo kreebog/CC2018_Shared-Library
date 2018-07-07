@@ -1,9 +1,9 @@
 import { format } from 'util';
 import seedrandom from 'seedrandom';
-
 import { Logger } from './Logger';
 import { DIRS, TAGS } from './Enums';
 import { IMaze } from './IMaze';
+import { IMazeStub } from './IMazeStub';
 import Cell from './Cell';
 import { Pos } from './Pos';
 
@@ -97,6 +97,18 @@ export class Maze {
         };
 
         return mazeData;
+    }
+
+    public getMazeStub(): IMazeStub {
+        let stub = {
+            id: this.id,
+            height: this.height,
+            width: this.width,
+            seed: this.seed,
+            url: ''
+        };
+
+        return stub;
     }
 
     public getStartCell(): Pos {

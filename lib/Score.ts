@@ -124,4 +124,20 @@ export class Score {
             this.backtrackCount = 0;
         }
     }
+
+    public toJSON(): IScore {
+        let data = {
+            mazeId: this.mazeId,
+            teamId: this.teamId,
+            gameId: this.gameId,
+            gameRound: this.gameRound,
+            scoreKey: this.scoreKey,
+            gameResult: this.gameResult,
+            moveCount: this.moveCount,
+            backtrackCount: this.backtrackCount,
+            bonusPoints: this.bonusPoints
+        };
+
+        return data;
+    }
 }
