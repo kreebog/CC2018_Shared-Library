@@ -5,5 +5,6 @@ import { IBot } from './IBot';
 export interface ITeam {
     name: string;
     id: string;
+    logo: string;
     bots: Array<IBot>;
 }
