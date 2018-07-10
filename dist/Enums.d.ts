@@ -25,7 +25,9 @@ export declare enum GAME_STATES {
     IN_PROGRESS = 2,
     WAIT_BOT = 4,
     WAIT_TEAM = 8,
-    FINISHED = 16
+    FINISHED = 16,
+    ABORTED = 32,
+    ERROR = 64
 }
 export declare enum ACTIONS {
     PASS = 0,

@@ -9,7 +9,7 @@ var DIRS;
     DIRS[DIRS["EAST"] = 4] = "EAST";
     DIRS[DIRS["WEST"] = 8] = "WEST";
 })(DIRS = exports.DIRS || (exports.DIRS = {}));
-// Tags for cells, avatar, item, and other functions 
+// Tags for cells, avatar, item, and other functions
 var TAGS;
 (function (TAGS) {
     TAGS[TAGS["NONE"] = 0] = "NONE";
@@ -36,6 +36,8 @@ var GAME_STATES;
     GAME_STATES[GAME_STATES["WAIT_BOT"] = 4] = "WAIT_BOT";
     GAME_STATES[GAME_STATES["WAIT_TEAM"] = 8] = "WAIT_TEAM";
     GAME_STATES[GAME_STATES["FINISHED"] = 16] = "FINISHED";
+    GAME_STATES[GAME_STATES["ABORTED"] = 32] = "ABORTED";
+    GAME_STATES[GAME_STATES["ERROR"] = 64] = "ERROR";
 })(GAME_STATES = exports.GAME_STATES || (exports.GAME_STATES = {}));
 // enumeration of possible actions
 var ACTIONS;
@@ -74,7 +76,7 @@ class Enums {
                 let bitVal = parseInt(dir);
                 if (!!(bitVal & selectedBits)) {
                     let stringVal = targetEnum[bitVal];
-                    ret += (ret.length == 0 ? stringVal : ', ' + stringVal);
+                    ret += ret.length == 0 ? stringVal : ', ' + stringVal;
                 }
             }
         }
