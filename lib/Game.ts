@@ -52,6 +52,14 @@ export class Game {
         return this.result;
     }
 
+    public setState(gameState: GAME_STATES) {
+        this.state = gameState;
+    }
+
+    public setResult(gameResult: GAME_RESULTS) {
+        this.result = gameResult;
+    }
+
     public getMaze(): IMaze {
         return this.maze.toJSON();
     }
@@ -64,15 +72,12 @@ export class Game {
         return this.score;
     }
 
-    public getPlayerPos(): Pos {
-        return this.playerPos;
+    public setPlayerPos(playerPos: Pos) {
+        this.playerPos = playerPos;
     }
 
-    public doMove(dir: DIRS) {
-        log.debug(__filename, format('doMove(%d)', dir), format('Attempting player move to the %s from cell at %d, %d ', DIRS[dir], this.playerPos.row, this.playerPos.col));
-        if (this.isOpenDir(dir)) {
-            this.playerPos;
-        }
+    public getPlayerPos(): Pos {
+        return this.playerPos;
     }
 
     public isOpenDir(dir: DIRS): boolean {

@@ -1,6 +1,6 @@
 {
     "name": "cc2018-ts-lib",
-    "version": "1.4.22",
+    "version": "1.4.23",
     "description": "A shared TypeScript library for Code Camp 2018 Development...",
     "main": "dist/shared.js",
     "types": "dist/shared.d.ts",

@@ -17,11 +17,13 @@ export declare class Game {
     forceSetId(forcedId: string): void;
     getState(): GAME_STATES;
     getResult(): GAME_RESULTS;
+    setState(gameState: GAME_STATES): void;
+    setResult(gameResult: GAME_RESULTS): void;
     getMaze(): IMaze;
     getTeam(): Team;
     getScore(): Score;
+    setPlayerPos(playerPos: Pos): void;
     getPlayerPos(): Pos;
-    doMove(dir: DIRS): void;
     isOpenDir(dir: DIRS): boolean;
     getGameStub(): IGameStub;
     private updatePos;

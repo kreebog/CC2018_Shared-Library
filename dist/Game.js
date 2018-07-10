@@ -34,6 +34,12 @@ class Game {
     getResult() {
         return this.result;
     }
+    setState(gameState) {
+        this.state = gameState;
+    }
+    setResult(gameResult) {
+        this.result = gameResult;
+    }
     getMaze() {
         return this.maze.toJSON();
     }
@@ -43,14 +49,11 @@ class Game {
     getScore() {
         return this.score;
     }
+    setPlayerPos(playerPos) {
+        this.playerPos = playerPos;
+    }
     getPlayerPos() {
         return this.playerPos;
-    }
-    doMove(dir) {
-        log.debug(__filename, util_1.format('doMove(%d)', dir), util_1.format('Attempting player move to the %s from cell at %d, %d ', Enums_2.DIRS[dir], this.playerPos.row, this.playerPos.col));
-        if (this.isOpenDir(dir)) {
-            this.playerPos;
-        }
     }
     isOpenDir(dir) {
         let open = false;
