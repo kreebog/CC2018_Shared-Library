@@ -14,6 +14,7 @@ export declare class Game {
     private playerPos;
     constructor(mazeData: IMaze, team: Team, score: Score);
     getId(): string;
+    forceSetId(forcedId: string): void;
     getState(): GAME_STATES;
     getResult(): GAME_RESULTS;
     getMaze(): IMaze;

@@ -39,6 +39,11 @@ export class Game {
         return this.id;
     }
 
+    // useful for testing - forces the ID to the given value
+    public forceSetId(forcedId: string) {
+        this.id = forcedId;
+    }
+
     public getState() {
         return this.state;
     }

@@ -6,6 +6,7 @@ import { IMaze } from './IMaze';
 import { IMazeStub } from './IMazeStub';
 import Cell from './Cell';
 import { Pos } from './Pos';
+import { ICell } from './ICell';
 
 let recurseDepth = 0; // tracks the level of recursion during path carving
 let maxRecurseDepth = 0; // tracks the deepest level of carve recursion seen
@@ -146,6 +147,15 @@ export class Maze {
         }
         // return it anyway
         return this.cells[row][col];
+    }
+
+    public getICell(row: number, col: number): ICell {
+        if (row < 0 || row > this.cells.length || col < 0 || col > this.cells[0].length) {
+            log.warn(__filename, format('getCell(%d, %d', row, col), 'Invalid cell coordinates given.');
+            throw new Error(format('Index Out of Bounds - Invalid cell coordinates given: row:%d, col:%d.'));
+        }
+        // return it anyway
+        return this.cells[row][col].toJSON();
     }
 
     /**

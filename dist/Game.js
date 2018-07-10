@@ -24,6 +24,10 @@ class Game {
     getId() {
         return this.id;
     }
+    // useful for testing - forces the ID to the given value
+    forceSetId(forcedId) {
+        this.id = forcedId;
+    }
     getState() {
         return this.state;
     }

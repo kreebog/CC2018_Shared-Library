@@ -123,6 +123,14 @@ class Maze {
         // return it anyway
         return this.cells[row][col];
     }
+    getICell(row, col) {
+        if (row < 0 || row > this.cells.length || col < 0 || col > this.cells[0].length) {
+            log.warn(__filename, util_1.format('getCell(%d, %d', row, col), 'Invalid cell coordinates given.');
+            throw new Error(util_1.format('Index Out of Bounds - Invalid cell coordinates given: row:%d, col:%d.'));
+        }
+        // return it anyway
+        return this.cells[row][col].toJSON();
+    }
     /**
      * Generates a new maze based on the given parameters
      * @param height - The height of the maze grid

@@ -2,6 +2,7 @@ import { IMaze } from './IMaze';
 import { IMazeStub } from './IMazeStub';
 import Cell from './Cell';
 import { Pos } from './Pos';
+import { ICell } from './ICell';
 /**
  * Maze class - the heart of everything!
  */
@@ -37,6 +38,7 @@ export declare class Maze {
     getId(): string;
     getShortestPathLength(): number;
     getCell(row: number, col: number): Cell;
+    getICell(row: number, col: number): ICell;
     /**
      * Generates a new maze based on the given parameters
      * @param height - The height of the maze grid
