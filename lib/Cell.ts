@@ -32,15 +32,6 @@ export class Cell {
         this.tags = tags;
     }
 
-    public loadFromJson(data: ICell) {
-        this.x = data.col;
-        this.y = data.row;
-        this.exits = data.exits;
-        this.tags = data.tags;
-        this.visits = data.visits;
-        this.lastVisit = data.lastVisit;
-    }
-
     public toJSON(): ICell {
         let cellData = {
             row: this.getPos().row,

@@ -29,14 +29,6 @@ class Cell {
         this.exits = exits;
         this.tags = tags;
     }
-    loadFromJson(data) {
-        this.x = data.col;
-        this.y = data.row;
-        this.exits = data.exits;
-        this.tags = data.tags;
-        this.visits = data.visits;
-        this.lastVisit = data.lastVisit;
-    }
     toJSON() {
         let cellData = {
             row: this.getPos().row,

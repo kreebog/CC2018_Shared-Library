@@ -13,7 +13,6 @@ export declare class Cell {
     private lastVisit;
     private notes;
     constructor(exits: number, tags: number);
-    loadFromJson(data: ICell): void;
     toJSON(): ICell;
     addNote(note: string): void;
     getNotes(): string[];
