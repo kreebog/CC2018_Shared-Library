@@ -17,7 +17,8 @@ export enum PLAYER_STATES {
     BURING = 32,
     LAMED = 64,
     BEARTRAPPED = 128,
-    TARPITTED = 256
+    TARPITTED = 256,
+    DEAD = 512
 }
 
 // Cardinal directions used for movement, exits, and other direction-based functions

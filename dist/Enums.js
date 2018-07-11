@@ -21,6 +21,7 @@ var PLAYER_STATES;
     PLAYER_STATES[PLAYER_STATES["LAMED"] = 64] = "LAMED";
     PLAYER_STATES[PLAYER_STATES["BEARTRAPPED"] = 128] = "BEARTRAPPED";
     PLAYER_STATES[PLAYER_STATES["TARPITTED"] = 256] = "TARPITTED";
+    PLAYER_STATES[PLAYER_STATES["DEAD"] = 512] = "DEAD";
 })(PLAYER_STATES = exports.PLAYER_STATES || (exports.PLAYER_STATES = {}));
 // Cardinal directions used for movement, exits, and other direction-based functions
 var DIRS;
