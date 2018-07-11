@@ -22,9 +22,9 @@ export declare class Score {
     getGameRound(): number;
     setGameRound(value: number): void;
     getMoveCount(): number;
-    setMoveCount(value: number): void;
+    addMove(): void;
     getBackTrackCount(): number;
-    setBackTrackCount(value: number): void;
+    addBackTrack(): void;
     getBonusPoints(): number;
     setBonusPoints(value: number): void;
     getGameResult(): GAME_RESULTS;

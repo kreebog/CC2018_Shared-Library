@@ -1,5 +1,27 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+// various states that the Player might be in
+var TROPHY_IDS;
+(function (TROPHY_IDS) {
+    TROPHY_IDS[TROPHY_IDS["WASTED_TIME"] = 0] = "WASTED_TIME";
+    TROPHY_IDS[TROPHY_IDS["NERVOUS_WALK"] = 1] = "NERVOUS_WALK";
+    TROPHY_IDS[TROPHY_IDS["WATCHING_PAINT_DRY"] = 2] = "WATCHING_PAINT_DRY";
+    TROPHY_IDS[TROPHY_IDS["WISHFUL_THINKING"] = 4] = "WISHFUL_THINKING";
+    TROPHY_IDS[TROPHY_IDS["WISHFUL_DYING"] = 8] = "WISHFUL_DYING";
+})(TROPHY_IDS = exports.TROPHY_IDS || (exports.TROPHY_IDS = {}));
+var PLAYER_STATES;
+(function (PLAYER_STATES) {
+    PLAYER_STATES[PLAYER_STATES["NONE"] = 0] = "NONE";
+    PLAYER_STATES[PLAYER_STATES["SITTING"] = 1] = "SITTING";
+    PLAYER_STATES[PLAYER_STATES["STANDING"] = 2] = "STANDING";
+    PLAYER_STATES[PLAYER_STATES["LYING"] = 4] = "LYING";
+    PLAYER_STATES[PLAYER_STATES["STUNNED"] = 8] = "STUNNED";
+    PLAYER_STATES[PLAYER_STATES["BLIND"] = 16] = "BLIND";
+    PLAYER_STATES[PLAYER_STATES["BURING"] = 32] = "BURING";
+    PLAYER_STATES[PLAYER_STATES["LAMED"] = 64] = "LAMED";
+    PLAYER_STATES[PLAYER_STATES["BEARTRAPPED"] = 128] = "BEARTRAPPED";
+    PLAYER_STATES[PLAYER_STATES["TARPITTED"] = 256] = "TARPITTED";
+})(PLAYER_STATES = exports.PLAYER_STATES || (exports.PLAYER_STATES = {}));
 // Cardinal directions used for movement, exits, and other direction-based functions
 var DIRS;
 (function (DIRS) {
@@ -17,6 +39,11 @@ var TAGS;
     TAGS[TAGS["FINISH"] = 2] = "FINISH";
     TAGS[TAGS["PATH"] = 4] = "PATH";
     TAGS[TAGS["CARVED"] = 8] = "CARVED";
+    TAGS[TAGS["LAVA"] = 16] = "LAVA";
+    TAGS[TAGS["TRAP_PIT"] = 32] = "TRAP_PIT";
+    TAGS[TAGS["TRAP_BEARTRAP"] = 64] = "TRAP_BEARTRAP";
+    TAGS[TAGS["TRAP_TARPIT"] = 128] = "TRAP_TARPIT";
+    TAGS[TAGS["TRAP_FLAMETHOWER"] = 256] = "TRAP_FLAMETHOWER";
 })(TAGS = exports.TAGS || (exports.TAGS = {}));
 // enumeration of possible game results
 var GAME_RESULTS;
@@ -26,7 +53,8 @@ var GAME_RESULTS;
     GAME_RESULTS[GAME_RESULTS["OUT_OF_TIME"] = 4] = "OUT_OF_TIME";
     GAME_RESULTS[GAME_RESULTS["DEATH_TRAP"] = 8] = "DEATH_TRAP";
     GAME_RESULTS[GAME_RESULTS["DEATH_POISON"] = 16] = "DEATH_POISON";
-    GAME_RESULTS[GAME_RESULTS["WIN"] = 32] = "WIN";
+    GAME_RESULTS[GAME_RESULTS["DEATH_LAVA"] = 32] = "DEATH_LAVA";
+    GAME_RESULTS[GAME_RESULTS["WIN"] = 64] = "WIN";
 })(GAME_RESULTS = exports.GAME_RESULTS || (exports.GAME_RESULTS = {}));
 // enumeration of possible game states
 var GAME_STATES;
@@ -39,14 +67,6 @@ var GAME_STATES;
     GAME_STATES[GAME_STATES["ABORTED"] = 32] = "ABORTED";
     GAME_STATES[GAME_STATES["ERROR"] = 64] = "ERROR";
 })(GAME_STATES = exports.GAME_STATES || (exports.GAME_STATES = {}));
-// enumeration of possible actions
-var ACTIONS;
-(function (ACTIONS) {
-    ACTIONS[ACTIONS["PASS"] = 0] = "PASS";
-    ACTIONS[ACTIONS["MOVE"] = 1] = "MOVE";
-    ACTIONS[ACTIONS["JUMP"] = 2] = "JUMP";
-    ACTIONS[ACTIONS["LOOK"] = 4] = "LOOK";
-})(ACTIONS = exports.ACTIONS || (exports.ACTIONS = {}));
 /**
  * Singleton of Enumerations used by CC2018
  */

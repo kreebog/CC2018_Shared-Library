@@ -61,15 +61,15 @@ export class Score {
     public getMoveCount(): number {
         return this.moveCount;
     }
-    public setMoveCount(value: number) {
-        this.moveCount = value;
+    public addMove() {
+        this.moveCount++;
     }
 
     public getBackTrackCount(): number {
         return this.backtrackCount;
     }
-    public setBackTrackCount(value: number) {
-        this.backtrackCount = value;
+    public addBackTrack() {
+        this.backtrackCount++;
     }
 
     public getBonusPoints(): number {

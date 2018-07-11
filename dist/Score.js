@@ -71,14 +71,14 @@ class Score {
     getMoveCount() {
         return this.moveCount;
     }
-    setMoveCount(value) {
-        this.moveCount = value;
+    addMove() {
+        this.moveCount++;
     }
     getBackTrackCount() {
         return this.backtrackCount;
     }
-    setBackTrackCount(value) {
-        this.backtrackCount = value;
+    addBackTrack() {
+        this.backtrackCount++;
     }
     getBonusPoints() {
         return this.bonusPoints;

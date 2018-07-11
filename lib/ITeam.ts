@@ -3,10 +3,12 @@
  */
 
 import { IBot } from './IBot';
+import { ITrophy } from './ITrophy';
 
 export interface ITeam {
     name: string;
     id: string;
     logo: string;
+    trophies: Array<ITrophy>;
     bots: Array<IBot>;
 }

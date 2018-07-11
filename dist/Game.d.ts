@@ -1,9 +1,11 @@
-import { DIRS, GAME_STATES, GAME_RESULTS } from './Enums';
+import { GAME_STATES, GAME_RESULTS } from './Enums';
+import { Maze } from './Maze';
 import { IMaze } from './IMaze';
 import { Team } from './Team';
 import { Score } from './Score';
-import { Pos } from './Pos';
 import { IGameStub } from './IGameStub';
+import { Player } from './Player';
+import { IAction } from './IAction';
 export declare class Game {
     private id;
     private state;
@@ -11,20 +13,25 @@ export declare class Game {
     private maze;
     private team;
     private score;
-    private playerPos;
-    constructor(mazeData: IMaze, team: Team, score: Score);
+    private player;
+    private actions;
+    constructor(maze: Maze, team: Team, player: Player, score: Score);
     getId(): string;
+    addAction(action: IAction): void;
+    getAction(moveNumber: number): IAction;
+    getActions(): Array<IAction>;
+    getActionsSince(moveNumber: number): Array<IAction>;
+    getActionsRange(start: number, count: number): Array<IAction>;
     forceSetId(forcedId: string): void;
     getState(): GAME_STATES;
     getResult(): GAME_RESULTS;
     setState(gameState: GAME_STATES): void;
     setResult(gameResult: GAME_RESULTS): void;
-    getMaze(): IMaze;
+    getMaze(): Maze;
+    getIMaze(): IMaze;
     getTeam(): Team;
     getScore(): Score;
-    setPlayerPos(playerPos: Pos): void;
-    getPlayerPos(): Pos;
-    isOpenDir(dir: DIRS): boolean;
+    getPlayer(): Player;
     getGameStub(): IGameStub;
     private updatePos;
 }

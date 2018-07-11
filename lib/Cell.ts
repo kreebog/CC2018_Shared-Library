@@ -19,17 +19,32 @@ let enums = Enums.getInstance();
  * Represents a single cell in a maze
  */
 export class Cell {
-    private x: number = 0;
-    private y: number = 0;
-    private exits: number = 0;
-    private tags: number = 0;
-    private visits: number = 0;
-    private lastVisit: number = 0;
-    private notes: string[] = new Array();
+    private x: number; // col
+    private y: number; // row
+    private exits: number;
+    private tags: number;
+    private visits: number;
+    private lastVisit: number;
+    private notes: Array<string>;
 
-    constructor(exits: number, tags: number) {
-        this.exits = exits;
-        this.tags = tags;
+    constructor(data?: ICell) {
+        if (data !== undefined) {
+            this.x = data.col;
+            this.y = data.row;
+            this.exits = data.exits;
+            this.tags = data.tags;
+            this.visits = data.visits;
+            this.lastVisit = data.lastVisit;
+            this.notes = data.notes;
+        } else {
+            this.x = 0; // col
+            this.y = 0; // row
+            this.exits = 0;
+            this.tags = 0;
+            this.visits = 0;
+            this.lastVisit = 0;
+            this.notes = new Array<string>();
+        }
     }
 
     public toJSON(): ICell {
@@ -172,13 +187,18 @@ export class Cell {
         }
 
         return validMove;
-    }
+    } // setExit
 
     /**
      * Returns an array representing the cells grid coordinates (y, x)
      */
     public getPos(): Pos {
         return new Pos(this.y, this.x);
+    }
+
+    // checks for an open direction
+    public isDirOpen(dir: DIRS): boolean {
+        return !!(this.getExits() & dir);
     }
 
     /**

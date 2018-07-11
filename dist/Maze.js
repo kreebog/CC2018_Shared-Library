@@ -29,7 +29,6 @@ class Maze {
      */
     constructor(data) {
         if (data !== undefined) {
-            this.cells = data.cells;
             this.height = data.height;
             this.width = data.width;
             this.seed = data.seed;
@@ -38,9 +37,10 @@ class Maze {
             this.startCell = data.startCell;
             this.finishCell = data.finishCell;
             this.shortestPathLength = data.shortestPathLength;
+            this.cells = new Array();
+            this.loadCells(data.cells);
         }
         else {
-            this.cells = new Array();
             this.height = 0;
             this.width = 0;
             this.seed = '';
@@ -49,23 +49,25 @@ class Maze {
             this.startCell = new Pos_1.Pos(0, 0);
             this.finishCell = new Pos_1.Pos(0, 0);
             this.shortestPathLength = 0;
+            this.cells = new Array();
         }
     }
-    /**
-     * @deprecated - Use constructor [ new Maze(data:IMaze) ] instead.
-     */
-    loadFromJSON(data) {
-        this.cells = data.cells;
-        this.height = data.height;
-        this.width = data.width;
-        this.seed = data.seed;
-        this.textRender = data.textRender;
-        this.id = data.id;
-        this.startCell = data.startCell;
-        this.finishCell = data.finishCell;
-        this.shortestPathLength = data.shortestPathLength;
-        log.warn(__filename, 'loadFromJSON()', 'FUNCTION DEPRECATED.  Use constructor(data: IMaze) instead.');
-        return this;
+    // actually have to rebuild the entire cells array
+    // to repopulate an object from json
+    loadCells(cells) {
+        let newCells = new Array();
+        // build the empty cells array
+        this.cells = new Array(this.height);
+        for (let y = 0; y < this.height; y++) {
+            let row = new Array();
+            for (let x = 0; x < this.width; x++) {
+                let cData = JSON.parse(JSON.stringify(cells[y][x]));
+                let cell = new Cell_1.default(cData);
+                cell.setLocation(x, y);
+                row.push(cell);
+            }
+            this.cells[y] = row;
+        }
     }
     /**
      * populate and return base maze data
@@ -94,6 +96,10 @@ class Maze {
         };
         return stub;
     }
+    // Cell Update Functions
+    getCellVisits(pos) {
+        return this.cells[pos.row][pos.col].getVisitCount();
+    }
     getStartCell() {
         return this.startCell;
     }
@@ -115,21 +121,23 @@ class Maze {
     getShortestPathLength() {
         return this.shortestPathLength;
     }
-    getCell(row, col) {
-        if (row < 0 || row > this.cells.length || col < 0 || col > this.cells[0].length) {
-            log.warn(__filename, util_1.format('getCell(%d, %d', row, col), 'Invalid cell coordinates given.');
+    getCell(pos) {
+        if (pos.row < 0 || pos.row > this.cells.length || pos.col < 0 || pos.col > this.cells[0].length) {
+            log.warn(__filename, util_1.format('getCell(%d, %d', pos.row, pos.col), 'Invalid cell coordinates given.');
             throw new Error(util_1.format('Index Out of Bounds - Invalid cell coordinates given: row:%d, col:%d.'));
         }
-        // return it anyway
-        return this.cells[row][col];
+        return this.cells[pos.row][pos.col];
     }
-    getICell(row, col) {
-        if (row < 0 || row > this.cells.length || col < 0 || col > this.cells[0].length) {
-            log.warn(__filename, util_1.format('getCell(%d, %d', row, col), 'Invalid cell coordinates given.');
-            throw new Error(util_1.format('Index Out of Bounds - Invalid cell coordinates given: row:%d, col:%d.'));
-        }
-        // return it anyway
-        return this.cells[row][col].toJSON();
+    getCellNeighbor(cell, dir) {
+        // move location of next cell according to random direction
+        let row = cell.getPos().row;
+        let col = cell.getPos().col;
+        // find coordinates of the cell in the given direction
+        if (dir < Enums_1.DIRS.EAST)
+            row = dir == Enums_1.DIRS.NORTH ? row - 1 : row + 1;
+        if (dir > Enums_1.DIRS.SOUTH)
+            col = dir == Enums_1.DIRS.EAST ? col + 1 : col - 1;
+        return this.getCell(new Pos_1.Pos(row, col));
     }
     /**
      * Generates a new maze based on the given parameters
@@ -169,7 +177,7 @@ class Maze {
         for (let y = 0; y < height; y++) {
             let row = new Array();
             for (let x = 0; x < width; x++) {
-                let cell = new Cell_1.default(0, 0);
+                let cell = new Cell_1.default();
                 cell.setLocation(x, y);
                 row.push(cell);
             }
@@ -340,7 +348,7 @@ class Maze {
         log.trace(__filename, util_1.format('tagSolution(%s)', cellPos.toString()), util_1.format('R:%d P:%s -- Solve pass started.', recurseDepth, pathId));
         // Attempt to get the cell - if it errors we can return from this call
         try {
-            cell = this.getCell(cellPos.row, cellPos.col);
+            cell = this.getCell(cellPos);
         }
         catch (err) {
             log.warn(__filename, util_1.format('tagSolution(%s)', cellPos.toString()), util_1.format('R:%d P:%s -- Invalid cell.', recurseDepth, pathId));

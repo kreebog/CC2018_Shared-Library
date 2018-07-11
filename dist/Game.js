@@ -1,9 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const util_1 = require("util");
 const Enums_1 = require("./Enums");
 const Enums_2 = require("./Enums");
-const Maze_1 = require("./Maze");
 const Score_1 = require("./Score");
 const Logger_1 = require("./Logger");
 const Pos_1 = require("./Pos");
@@ -11,18 +9,46 @@ let uuid = require('uuid/v4');
 const enums = Enums_1.Enums.getInstance();
 const log = Logger_1.Logger.getInstance();
 class Game {
-    constructor(mazeData, team, score) {
+    constructor(maze, team, player, score) {
         this.id = uuid();
         this.state = Enums_2.GAME_STATES.NEW;
         this.result = Enums_2.GAME_RESULTS.IN_PROGRESS;
-        this.maze = new Maze_1.Maze().loadFromJSON(mazeData);
-        this.playerPos = mazeData.startCell;
+        this.maze = maze;
+        this.player = player;
         this.team = team;
         this.score = new Score_1.Score();
+        this.actions = new Array();
         log.debug(__filename, 'constructor()', 'New Game instance created.  Id: ' + this.id);
     }
     getId() {
         return this.id;
+    }
+    addAction(action) {
+        this.actions.push(action);
+    }
+    getAction(moveNumber) {
+        return this.actions[moveNumber];
+    }
+    getActions() {
+        return this.actions;
+    }
+    getActionsSince(moveNumber) {
+        let ret = new Array();
+        if (moveNumber >= this.actions.length)
+            moveNumber = this.actions.length - 1;
+        for (let x = moveNumber; x < this.actions.length; x++) {
+            ret.push(this.actions[x]);
+        }
+        return ret;
+    }
+    getActionsRange(start, count) {
+        let ret = new Array();
+        if (count + start >= this.actions.length)
+            count = this.actions.length - start - 1;
+        for (let x = start; x <= count; x++) {
+            ret.push(this.actions[x]);
+        }
+        return ret;
     }
     // useful for testing - forces the ID to the given value
     forceSetId(forcedId) {
@@ -41,6 +67,9 @@ class Game {
         this.result = gameResult;
     }
     getMaze() {
+        return this.maze;
+    }
+    getIMaze() {
         return this.maze.toJSON();
     }
     getTeam() {
@@ -49,26 +78,8 @@ class Game {
     getScore() {
         return this.score;
     }
-    setPlayerPos(playerPos) {
-        this.playerPos = playerPos;
-    }
-    getPlayerPos() {
-        return this.playerPos;
-    }
-    isOpenDir(dir) {
-        let open = false;
-        let cLoc = this.getPlayerPos();
-        let cell = this.maze.getCell(cLoc.col, cLoc.row);
-        if (dir == Enums_2.DIRS.NORTH)
-            open = cLoc.row > 0 && !!(cell.getExits() & dir);
-        if (dir == Enums_2.DIRS.SOUTH)
-            open = cLoc.row < this.maze.getHeight() - 1 && !!(cell.getExits() & dir);
-        if (dir == Enums_2.DIRS.EAST)
-            open = cLoc.col < this.maze.getWidth() - 1 && !!(cell.getExits() & dir);
-        if (dir == Enums_2.DIRS.WEST)
-            open = cLoc.col > 0 && !!(cell.getExits() & dir);
-        log.debug(__filename, util_1.format('isOpenDir(%d)', dir), util_1.format('Open exit %s from cell at %d, %d?  %s', open));
-        return open;
+    getPlayer() {
+        return this.player;
     }
     getGameStub() {
         let stub = {

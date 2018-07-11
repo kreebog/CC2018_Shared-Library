@@ -12,7 +12,7 @@ export declare class Cell {
     private visits;
     private lastVisit;
     private notes;
-    constructor(exits: number, tags: number);
+    constructor(data?: ICell);
     toJSON(): ICell;
     addNote(note: string): void;
     getNotes(): string[];
@@ -57,6 +57,7 @@ export declare class Cell {
      * Returns an array representing the cells grid coordinates (y, x)
      */
     getPos(): Pos;
+    isDirOpen(dir: DIRS): boolean;
     /**
      * Set the cell's grid coordinates
      * @param x

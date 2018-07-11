@@ -18,16 +18,25 @@ let enums = Enums_1.Enums.getInstance();
  * Represents a single cell in a maze
  */
 class Cell {
-    constructor(exits, tags) {
-        this.x = 0;
-        this.y = 0;
-        this.exits = 0;
-        this.tags = 0;
-        this.visits = 0;
-        this.lastVisit = 0;
-        this.notes = new Array();
-        this.exits = exits;
-        this.tags = tags;
+    constructor(data) {
+        if (data !== undefined) {
+            this.x = data.col;
+            this.y = data.row;
+            this.exits = data.exits;
+            this.tags = data.tags;
+            this.visits = data.visits;
+            this.lastVisit = data.lastVisit;
+            this.notes = data.notes;
+        }
+        else {
+            this.x = 0; // col
+            this.y = 0; // row
+            this.exits = 0;
+            this.tags = 0;
+            this.visits = 0;
+            this.lastVisit = 0;
+            this.notes = new Array();
+        }
     }
     toJSON() {
         let cellData = {
@@ -152,12 +161,16 @@ class Cell {
             log.warn(__filename, util_1.format('setExit(%s, %s)', modeName, dirName), util_1.format('Invalid action in cell [%d][%d]. Exit %s. Cell exits: %s', this.y, this.x, mode == FN_MODES.ADD ? 'already exists' : 'not found', this.listExits()));
         }
         return validMove;
-    }
+    } // setExit
     /**
      * Returns an array representing the cells grid coordinates (y, x)
      */
     getPos() {
         return new Pos_1.Pos(this.y, this.x);
+    }
+    // checks for an open direction
+    isDirOpen(dir) {
+        return !!(this.getExits() & dir);
     }
     /**
      * Set the cell's grid coordinates

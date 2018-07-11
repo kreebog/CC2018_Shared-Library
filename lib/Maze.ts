@@ -40,9 +40,8 @@ export class Maze {
      * Instantiates or new or pre-loaded Maze object
      * @param data - IMaze interface prefilled with required data
      */
-    constructor(data?: IMaze) {
+    constructor(data?: Maze) {
         if (data !== undefined) {
-            this.cells = data.cells;
             this.height = data.height;
             this.width = data.width;
             this.seed = data.seed;
@@ -51,8 +50,9 @@ export class Maze {
             this.startCell = data.startCell;
             this.finishCell = data.finishCell;
             this.shortestPathLength = data.shortestPathLength;
+            this.cells = new Array<Array<Cell>>();
+            this.loadCells(data.cells);
         } else {
-            this.cells = new Array();
             this.height = 0;
             this.width = 0;
             this.seed = '';
@@ -61,24 +61,27 @@ export class Maze {
             this.startCell = new Pos(0, 0);
             this.finishCell = new Pos(0, 0);
             this.shortestPathLength = 0;
+            this.cells = new Array<Array<Cell>>();
         }
     }
 
-    /**
-     * @deprecated - Use constructor [ new Maze(data:IMaze) ] instead.
-     */
-    public loadFromJSON(data: IMaze): this {
-        this.cells = data.cells;
-        this.height = data.height;
-        this.width = data.width;
-        this.seed = data.seed;
-        this.textRender = data.textRender;
-        this.id = data.id;
-        this.startCell = data.startCell;
-        this.finishCell = data.finishCell;
-        this.shortestPathLength = data.shortestPathLength;
-        log.warn(__filename, 'loadFromJSON()', 'FUNCTION DEPRECATED.  Use constructor(data: IMaze) instead.');
-        return this;
+    // actually have to rebuild the entire cells array
+    // to repopulate an object from json
+    private loadCells(cells: Array<Array<Cell>>) {
+        let newCells: Array<Array<Cell>> = new Array<Array<Cell>>();
+
+        // build the empty cells array
+        this.cells = new Array(this.height);
+        for (let y: number = 0; y < this.height; y++) {
+            let row: Array<Cell> = new Array();
+            for (let x: number = 0; x < this.width; x++) {
+                let cData = JSON.parse(JSON.stringify(cells[y][x]));
+                let cell: Cell = new Cell(cData);
+                cell.setLocation(x, y);
+                row.push(cell);
+            }
+            this.cells[y] = row;
+        }
     }
 
     /**
@@ -112,6 +115,11 @@ export class Maze {
         return stub;
     }
 
+    // Cell Update Functions
+    public getCellVisits(pos: Pos): number {
+        return this.cells[pos.row][pos.col].getVisitCount();
+    }
+
     public getStartCell(): Pos {
         return this.startCell;
     }
@@ -140,22 +148,25 @@ export class Maze {
         return this.shortestPathLength;
     }
 
-    public getCell(row: number, col: number): Cell {
-        if (row < 0 || row > this.cells.length || col < 0 || col > this.cells[0].length) {
-            log.warn(__filename, format('getCell(%d, %d', row, col), 'Invalid cell coordinates given.');
+    public getCell(pos: Pos): Cell {
+        if (pos.row < 0 || pos.row > this.cells.length || pos.col < 0 || pos.col > this.cells[0].length) {
+            log.warn(__filename, format('getCell(%d, %d', pos.row, pos.col), 'Invalid cell coordinates given.');
             throw new Error(format('Index Out of Bounds - Invalid cell coordinates given: row:%d, col:%d.'));
         }
-        // return it anyway
-        return this.cells[row][col];
+
+        return this.cells[pos.row][pos.col];
     }
 
-    public getICell(row: number, col: number): ICell {
-        if (row < 0 || row > this.cells.length || col < 0 || col > this.cells[0].length) {
-            log.warn(__filename, format('getCell(%d, %d', row, col), 'Invalid cell coordinates given.');
-            throw new Error(format('Index Out of Bounds - Invalid cell coordinates given: row:%d, col:%d.'));
-        }
-        // return it anyway
-        return this.cells[row][col].toJSON();
+    public getCellNeighbor(cell: Cell, dir: DIRS): Cell {
+        // move location of next cell according to random direction
+        let row = cell.getPos().row;
+        let col = cell.getPos().col;
+
+        // find coordinates of the cell in the given direction
+        if (dir < DIRS.EAST) row = dir == DIRS.NORTH ? row - 1 : row + 1;
+        if (dir > DIRS.SOUTH) col = dir == DIRS.EAST ? col + 1 : col - 1;
+
+        return this.getCell(new Pos(row, col));
     }
 
     /**
@@ -198,11 +209,10 @@ export class Maze {
 
         // build the empty cells array
         this.cells = new Array(height);
-
         for (let y: number = 0; y < height; y++) {
             let row: Array<Cell> = new Array();
             for (let x: number = 0; x < width; x++) {
-                let cell: Cell = new Cell(0, 0);
+                let cell: Cell = new Cell();
                 cell.setLocation(x, y);
                 row.push(cell);
             }
@@ -400,7 +410,7 @@ export class Maze {
 
         // Attempt to get the cell - if it errors we can return from this call
         try {
-            cell = this.getCell(cellPos.row, cellPos.col);
+            cell = this.getCell(cellPos);
         } catch (err) {
             log.warn(__filename, format('tagSolution(%s)', cellPos.toString()), format('R:%d P:%s -- Invalid cell.', recurseDepth, pathId));
             recurseDepth--;

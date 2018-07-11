@@ -1,3 +1,25 @@
+// various states that the Player might be in
+export enum TROPHY_IDS {
+    WASTED_TIME = 0,
+    NERVOUS_WALK = 1,
+    WATCHING_PAINT_DRY = 2,
+    WISHFUL_THINKING = 4,
+    WISHFUL_DYING = 8
+}
+
+export enum PLAYER_STATES {
+    NONE = 0,
+    SITTING = 1,
+    STANDING = 2,
+    LYING = 4,
+    STUNNED = 8,
+    BLIND = 16,
+    BURING = 32,
+    LAMED = 64,
+    BEARTRAPPED = 128,
+    TARPITTED = 256
+}
+
 // Cardinal directions used for movement, exits, and other direction-based functions
 export enum DIRS {
     NONE = 0,
@@ -13,7 +35,12 @@ export enum TAGS {
     START = 1,
     FINISH = 2,
     PATH = 4,
-    CARVED = 8
+    CARVED = 8,
+    LAVA = 16,
+    TRAP_PIT = 32,
+    TRAP_BEARTRAP = 64,
+    TRAP_TARPIT = 128,
+    TRAP_FLAMETHOWER = 256
 }
 
 // enumeration of possible game results
@@ -23,7 +50,8 @@ export enum GAME_RESULTS {
     OUT_OF_TIME = 4,
     DEATH_TRAP = 8,
     DEATH_POISON = 16,
-    WIN = 32
+    DEATH_LAVA = 32,
+    WIN = 64
 }
 
 // enumeration of possible game states
@@ -35,14 +63,6 @@ export enum GAME_STATES {
     FINISHED = 16,
     ABORTED = 32,
     ERROR = 64
-}
-
-// enumeration of possible actions
-export enum ACTIONS {
-    PASS = 0,
-    MOVE = 1,
-    JUMP = 2,
-    LOOK = 4
 }
 
 /**

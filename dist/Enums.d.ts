@@ -1,3 +1,22 @@
+export declare enum TROPHY_IDS {
+    WASTED_TIME = 0,
+    NERVOUS_WALK = 1,
+    WATCHING_PAINT_DRY = 2,
+    WISHFUL_THINKING = 4,
+    WISHFUL_DYING = 8
+}
+export declare enum PLAYER_STATES {
+    NONE = 0,
+    SITTING = 1,
+    STANDING = 2,
+    LYING = 4,
+    STUNNED = 8,
+    BLIND = 16,
+    BURING = 32,
+    LAMED = 64,
+    BEARTRAPPED = 128,
+    TARPITTED = 256
+}
 export declare enum DIRS {
     NONE = 0,
     NORTH = 1,
@@ -10,7 +29,12 @@ export declare enum TAGS {
     START = 1,
     FINISH = 2,
     PATH = 4,
-    CARVED = 8
+    CARVED = 8,
+    LAVA = 16,
+    TRAP_PIT = 32,
+    TRAP_BEARTRAP = 64,
+    TRAP_TARPIT = 128,
+    TRAP_FLAMETHOWER = 256
 }
 export declare enum GAME_RESULTS {
     IN_PROGRESS = 1,
@@ -18,7 +42,8 @@ export declare enum GAME_RESULTS {
     OUT_OF_TIME = 4,
     DEATH_TRAP = 8,
     DEATH_POISON = 16,
-    WIN = 32
+    DEATH_LAVA = 32,
+    WIN = 64
 }
 export declare enum GAME_STATES {
     NEW = 1,
@@ -28,12 +53,6 @@ export declare enum GAME_STATES {
     FINISHED = 16,
     ABORTED = 32,
     ERROR = 64
-}
-export declare enum ACTIONS {
-    PASS = 0,
-    MOVE = 1,
-    JUMP = 2,
-    LOOK = 4
 }
 /**
  * Singleton of Enumerations used by CC2018

@@ -1,8 +1,8 @@
+import { DIRS } from './Enums';
 import { IMaze } from './IMaze';
 import { IMazeStub } from './IMazeStub';
 import Cell from './Cell';
 import { Pos } from './Pos';
-import { ICell } from './ICell';
 /**
  * Maze class - the heart of everything!
  */
@@ -20,16 +20,14 @@ export declare class Maze {
      * Instantiates or new or pre-loaded Maze object
      * @param data - IMaze interface prefilled with required data
      */
-    constructor(data?: IMaze);
-    /**
-     * @deprecated - Use constructor [ new Maze(data:IMaze) ] instead.
-     */
-    loadFromJSON(data: IMaze): this;
+    constructor(data?: Maze);
+    private loadCells;
     /**
      * populate and return base maze data
      */
     toJSON(): IMaze;
     getMazeStub(): IMazeStub;
+    getCellVisits(pos: Pos): number;
     getStartCell(): Pos;
     getFinishCell(): Pos;
     getSeed(): string;
@@ -37,8 +35,8 @@ export declare class Maze {
     getWidth(): number;
     getId(): string;
     getShortestPathLength(): number;
-    getCell(row: number, col: number): Cell;
-    getICell(row: number, col: number): ICell;
+    getCell(pos: Pos): Cell;
+    getCellNeighbor(cell: Cell, dir: DIRS): Cell;
     /**
      * Generates a new maze based on the given parameters
      * @param height - The height of the maze grid
