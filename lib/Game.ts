@@ -57,6 +57,8 @@ export class Game {
 
     public getActionsSince(moveNumber: number): Array<IAction> {
         let ret: Array<IAction> = new Array<IAction>();
+        moveNumber--;
+        if (moveNumber < 0) moveNumber = 0;
 
         if (moveNumber >= this.actions.length) moveNumber = this.actions.length - 1;
         for (let x = moveNumber; x < this.actions.length; x++) {
@@ -69,9 +71,13 @@ export class Game {
     public getActionsRange(start: number, count: number): Array<IAction> {
         let ret: Array<IAction> = new Array<IAction>();
 
-        if (count + start >= this.actions.length) count = this.actions.length - start - 1;
-        for (let x = start; x <= count; x++) {
-            ret.push(this.actions[x]);
+        if (start < 1) start = 1;
+        if (count < 1) count = 1;
+
+        start = start - 1;
+        for (start; start < count; start++) {
+            console.log('start:%d, count:%d', start, count);
+            if (start <= this.actions.length) ret.push(this.actions[start]);
         }
 
         return ret;

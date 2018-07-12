@@ -2,8 +2,10 @@ export declare enum TROPHY_IDS {
     WASTED_TIME = 0,
     NERVOUS_WALK = 1,
     WATCHING_PAINT_DRY = 2,
-    WISHFUL_THINKING = 4,
-    WISHFUL_DYING = 8
+    WISHFUL_THINKING = 3,
+    WISHFUL_DYING = 4,
+    WINNER_WINNER_CHEDDAR_DINNER = 5,
+    PERFECT_RUN = 6
 }
 export declare enum PLAYER_STATES {
     NONE = 0,

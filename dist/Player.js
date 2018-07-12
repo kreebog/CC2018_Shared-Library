@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const Enums_1 = require("./Enums");
 // Class to maintain player state during a game
 class Player {
     get Location() {
@@ -19,13 +18,11 @@ class Player {
     addState(state) {
         if (!(this.state & state)) {
             this.state += state;
-            console.debug(__filename, 'addState()', Enums_1.PLAYER_STATES[state] + ' added.');
         }
     }
     removeState(state) {
         if (!!(this.state & state)) {
             this.state -= state;
-            console.debug(__filename, 'removeState()', Enums_1.PLAYER_STATES[state] + ' removed.');
         }
     }
 }

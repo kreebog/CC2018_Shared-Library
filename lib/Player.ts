@@ -25,14 +25,12 @@ export class Player {
     public addState(state: PLAYER_STATES) {
         if (!(this.state & state)) {
             this.state += state;
-            console.debug(__filename, 'addState()', PLAYER_STATES[state] + ' added.');
         }
     }
 
     public removeState(state: PLAYER_STATES) {
         if (!!(this.state & state)) {
             this.state -= state;
-            console.debug(__filename, 'removeState()', PLAYER_STATES[state] + ' removed.');
         }
     }
 }

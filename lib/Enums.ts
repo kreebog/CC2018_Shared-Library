@@ -1,10 +1,12 @@
 // various states that the Player might be in
 export enum TROPHY_IDS {
     WASTED_TIME = 0,
-    NERVOUS_WALK = 1,
-    WATCHING_PAINT_DRY = 2,
-    WISHFUL_THINKING = 4,
-    WISHFUL_DYING = 8
+    NERVOUS_WALK,
+    WATCHING_PAINT_DRY,
+    WISHFUL_THINKING,
+    WISHFUL_DYING,
+    WINNER_WINNER_CHEDDAR_DINNER,
+    PERFECT_RUN
 }
 
 export enum PLAYER_STATES {
