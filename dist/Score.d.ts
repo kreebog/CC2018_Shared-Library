@@ -6,13 +6,15 @@ export declare class Score {
     private gameId;
     private gameRound;
     private scoreKey;
+    private lastUpdated;
     private gameResult;
     private moveCount;
     private backtrackCount;
     private bonusPoints;
+    /**         Accessors         **/
     getBacktrackCount(): number;
     setBacktrackCount(value: number): void;
-    /**         Accessors         **/
+    addBacktrack(): void;
     getMazeId(): string;
     setMazeId(value: string): void;
     getTeamId(): string;
@@ -21,10 +23,9 @@ export declare class Score {
     setGameId(value: string): void;
     getGameRound(): number;
     setGameRound(value: number): void;
+    setMoveCount(count: number): void;
     getMoveCount(): number;
     addMove(): void;
-    getBackTrackCount(): number;
-    addBackTrack(): void;
     getBonusPoints(): number;
     setBonusPoints(value: number): void;
     getGameResult(): GAME_RESULTS;

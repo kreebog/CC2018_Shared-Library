@@ -15,6 +15,7 @@ export declare class Game {
     private score;
     private player;
     private actions;
+    private lastUpdateTime;
     constructor(maze: Maze, team: Team, player: Player, score: Score);
     getId(): string;
     addAction(action: IAction): void;

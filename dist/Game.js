@@ -18,6 +18,7 @@ class Game {
         this.team = team;
         this.score = new Score_1.Score();
         this.actions = new Array();
+        this.lastUpdateTime = -1;
         log.debug(__filename, 'constructor()', 'New Game instance created.  Id: ' + this.id);
     }
     getId() {

@@ -49,13 +49,13 @@ export declare enum GAME_RESULTS {
     WIN = 64
 }
 export declare enum GAME_STATES {
-    NEW = 1,
-    IN_PROGRESS = 2,
-    WAIT_BOT = 4,
-    WAIT_TEAM = 8,
-    FINISHED = 16,
-    ABORTED = 32,
-    ERROR = 64
+    NEW = 0,
+    IN_PROGRESS = 1,
+    WAIT_BOT = 2,
+    WAIT_TEAM = 4,
+    FINISHED = 8,
+    ABORTED = 16,
+    ERROR = 32
 }
 /**
  * Singleton of Enumerations used by CC2018

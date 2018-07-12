@@ -9,14 +9,13 @@ export class Score {
     private gameId: string;
     private gameRound: number;
     private scoreKey: string;
-
-    // the final result of the game
-    private gameResult: GAME_RESULTS = GAME_RESULTS.IN_PROGRESS;
-
-    // various score elements
+    private lastUpdated: number;
+    private gameResult: GAME_RESULTS;
     private moveCount: number;
     private backtrackCount: number;
     private bonusPoints: number;
+    
+    /**         Accessors         **/
 
     public getBacktrackCount(): number {
         return this.backtrackCount;
@@ -24,8 +23,10 @@ export class Score {
     public setBacktrackCount(value: number) {
         this.backtrackCount = value;
     }
+    public addBacktrack() {
+        this.backtrackCount++;
+    }
 
-    /**         Accessors         **/
     public getMazeId(): string {
         return this.mazeId;
     }
@@ -58,18 +59,14 @@ export class Score {
         this.scoreKey = this.generateScoreKey();
     }
 
+    public setMoveCount(count: number) {
+        this.moveCount = count;
+    }
     public getMoveCount(): number {
         return this.moveCount;
     }
     public addMove() {
         this.moveCount++;
-    }
-
-    public getBackTrackCount(): number {
-        return this.backtrackCount;
-    }
-    public addBackTrack() {
-        this.backtrackCount++;
     }
 
     public getBonusPoints(): number {
@@ -99,6 +96,7 @@ export class Score {
             this.teamId = data.teamId;
             this.gameId = data.gameId;
             this.gameRound = data.gameRound;
+            this.lastUpdated = data.lastUpdated;
 
             // generate the score key from maze, team, game, and round
             this.scoreKey = this.generateScoreKey();
@@ -113,6 +111,7 @@ export class Score {
             this.teamId = '';
             this.gameId = '';
             this.gameRound = 0;
+            this.lastUpdated = -1;
 
             // generate the score key from maze, team, game, and round
             this.scoreKey = 'SCORE_KEY_NOT_SET';
@@ -135,7 +134,8 @@ export class Score {
             gameResult: this.gameResult,
             moveCount: this.moveCount,
             backtrackCount: this.backtrackCount,
-            bonusPoints: this.bonusPoints
+            bonusPoints: this.bonusPoints,
+            lastUpdated: this.lastUpdated
         };
 
         return data;

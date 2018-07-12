@@ -25,6 +25,7 @@ export class Game {
     private score: Score;
     private player: Player;
     private actions: Array<IAction>;
+    private lastUpdateTime: number;
 
     constructor(maze: Maze, team: Team, player: Player, score: Score) {
         this.id = uuid();
@@ -35,6 +36,7 @@ export class Game {
         this.team = team;
         this.score = new Score();
         this.actions = new Array<IAction>();
+        this.lastUpdateTime = -1;
 
         log.debug(__filename, 'constructor()', 'New Game instance created.  Id: ' + this.id);
     }

@@ -5,6 +5,7 @@ export interface IScore {
     gameId: string;
     gameRound: number;
     scoreKey: string;
+    lastUpdated: number;
     gameResult: GAME_RESULTS;
     moveCount: number;
     backtrackCount: number;

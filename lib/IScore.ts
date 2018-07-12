@@ -7,6 +7,7 @@ export interface IScore {
     gameId: string;
     gameRound: number;
     scoreKey: string;
+    lastUpdated: number;
 
     // the final result of the game 
     gameResult: GAME_RESULTS;
