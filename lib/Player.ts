@@ -25,6 +25,18 @@ export class Player {
     public addState(state: PLAYER_STATES) {
         if (!(this.state & state)) {
             this.state += state;
+            if (state == PLAYER_STATES.SITTING) {
+                this.removeState(PLAYER_STATES.STANDING);
+                this.removeState(PLAYER_STATES.LYING);
+            }
+            if (state == PLAYER_STATES.LYING) {
+                this.removeState(PLAYER_STATES.STANDING);
+                this.removeState(PLAYER_STATES.SITTING);
+            }
+            if (state == PLAYER_STATES.STANDING) {
+                this.removeState(PLAYER_STATES.SITTING);
+                this.removeState(PLAYER_STATES.LYING);
+            }
         }
     }
 
