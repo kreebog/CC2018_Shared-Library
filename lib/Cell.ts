@@ -225,6 +225,14 @@ export class Cell {
         return enums.listSelectedBitNames(TAGS, this.tags);
     }
 
+    // removes all but the carved tag - used for removing traps from the solution path
+    public clearTags() {
+        let tags = TAGS.CARVED;
+        if (!!(this.tags & TAGS.START)) tags += TAGS.START;
+        if (!!(this.tags & TAGS.FINISH)) tags += TAGS.FINISH;
+        this.tags = tags;
+    }
+
     /**
      * Adds an Enums.Tag to this cell if it doesn't already exist
      * @param tag

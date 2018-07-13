@@ -72,6 +72,7 @@ export declare class Cell {
      * Returns list of string values representing cell tags
      */
     listTags(): string;
+    clearTags(): void;
     /**
      * Adds an Enums.Tag to this cell if it doesn't already exist
      * @param tag

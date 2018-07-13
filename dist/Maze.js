@@ -229,6 +229,24 @@ class Maze {
                     if (!(nextCell.getTags() & Enums_1.TAGS.CARVED) && cell.addExit(dirs[n], this.cells)) {
                         // this is a good move, so mark the cell as carved
                         nextCell.addTag(Enums_1.TAGS.CARVED);
+                        // add traps?  Have to be sure that the trap can be jumped over
+                        let trapChance = 10; // 1 in 10?
+                        if ((!!(cell.getExits() & Enums_1.DIRS.NORTH) && !!(cell.getExits() & Enums_1.DIRS.SOUTH)) || (!!(cell.getExits() & Enums_1.DIRS.EAST) && !!(cell.getExits() & Enums_1.DIRS.WEST))) {
+                            let trapNum = Math.floor(Math.random() * trapChance);
+                            if (trapNum == 3) {
+                                switch (Math.floor(Math.random() * 3 + 1)) {
+                                    case 1:
+                                        cell.addTag(Enums_1.TAGS.TRAP_BEARTRAP);
+                                        break;
+                                    case 2:
+                                        cell.addTag(Enums_1.TAGS.TRAP_PIT);
+                                        break;
+                                    case 3:
+                                        cell.addTag(Enums_1.TAGS.TRAP_FLAMETHOWER);
+                                        break;
+                                }
+                            }
+                        }
                         // and carve into the next cell
                         this.carvePassage(nextCell);
                     }
@@ -259,9 +277,9 @@ class Maze {
         const H_DOOR = '+   ';
         const V_DOOR = ' ';
         const CENTER = '   ';
-        const SOLUTION = ' # ';
+        const SOLUTION = ' . ';
         const ROW_END = '+';
-        const CARVED = ' . ';
+        const CARVED = '   ';
         const AVATAR = ' @ ';
         // TODO: Turn back on render caching after solver work is completed
         if (this.textRender.length > 0) {
@@ -293,15 +311,16 @@ class Maze {
                                 row += !!(cell.getExits() & Enums_1.DIRS.WEST) ? V_DOOR : V_WALL;
                             }
                             // render room center - check for cell properties and render appropriately
-                            if (!!(cell.getTags() & Enums_1.TAGS.PATH)) {
-                                row += SOLUTION;
-                            }
-                            else if (!!(cell.getTags() & Enums_1.TAGS.CARVED)) {
-                                row += CARVED;
-                            }
-                            else {
-                                row += CENTER;
-                            }
+                            let cellFill = CENTER;
+                            if (!!(cell.getTags() & Enums_1.TAGS.PATH))
+                                cellFill = SOLUTION;
+                            if (!!(cell.getTags() & Enums_1.TAGS.TRAP_BEARTRAP))
+                                cellFill = '>b<';
+                            if (!!(cell.getTags() & Enums_1.TAGS.TRAP_PIT))
+                                cellFill = '>p<';
+                            if (!!(cell.getTags() & Enums_1.TAGS.TRAP_FLAMETHOWER))
+                                cellFill = '>f<';
+                            row += cellFill;
                             // always render east walls (with room center)
                             row += !!(cell.getExits() & Enums_1.DIRS.EAST) ? V_DOOR : V_WALL;
                             break;
@@ -412,6 +431,7 @@ class Maze {
         if (playerPos.equals(this.finishCell)) {
             log.debug(__filename, util_1.format('tagSolution(%s)', cellPos.toString()), util_1.format('R:%d P:%s -- Adding PATH tag to %s.', recurseDepth, pathId, cell.getPos().toString()));
             this.shortestPathLength++;
+            cell.clearTags();
             cell.addTag(Enums_1.TAGS.PATH);
         }
         recurseDepth--;

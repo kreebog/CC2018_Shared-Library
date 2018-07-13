@@ -193,6 +193,15 @@ class Cell {
     listTags() {
         return enums.listSelectedBitNames(Enums_1.TAGS, this.tags);
     }
+    // removes all but the carved tag - used for removing traps from the solution path
+    clearTags() {
+        let tags = Enums_1.TAGS.CARVED;
+        if (!!(this.tags & Enums_1.TAGS.START))
+            tags += Enums_1.TAGS.START;
+        if (!!(this.tags & Enums_1.TAGS.FINISH))
+            tags += Enums_1.TAGS.FINISH;
+        this.tags = tags;
+    }
     /**
      * Adds an Enums.Tag to this cell if it doesn't already exist
      * @param tag
