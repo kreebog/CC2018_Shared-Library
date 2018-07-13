@@ -13,6 +13,8 @@ export declare class Team {
     getBots(): Array<IBot>;
     getLogo(): string;
     addTrophy(trophyId: TROPHY_IDS): void;
+    getTrophy(trophyId: TROPHY_IDS): ITrophy | null;
+    hasTrophy(trophyId: TROPHY_IDS): boolean;
     getTrophoies(): Array<ITrophy>;
     constructor(data?: ITeam);
     toJSON(): ITeam;

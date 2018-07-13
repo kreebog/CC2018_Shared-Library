@@ -7,7 +7,7 @@ export declare enum TROPHY_IDS {
     WINNER_WINNER_CHEDDAR_DINNER = 5,
     PERFECT_RUN = 6,
     YOU_FOUGHT_THE_WALL = 7,
-    BOOT_SCOOTER = 8
+    SPINNING_YOUR_WHEELS = 8
 }
 export declare enum PLAYER_STATES {
     NONE = 0,
