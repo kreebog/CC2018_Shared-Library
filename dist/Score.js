@@ -8,6 +8,7 @@ class Score {
         return this.backtrackCount;
     }
     setBacktrackCount(value) {
+        this.lastUpdated = Date.now();
         this.backtrackCount = value;
     }
     addBacktrack() {
@@ -42,30 +43,35 @@ class Score {
         this.scoreKey = this.generateScoreKey();
     }
     setMoveCount(count) {
+        this.lastUpdated = Date.now();
         this.moveCount = count;
     }
     getMoveCount() {
         return this.moveCount;
     }
     addMove() {
+        this.lastUpdated = Date.now();
         this.moveCount++;
     }
     getBonusPoints() {
         return this.bonusPoints;
     }
     setBonusPoints(value) {
+        this.lastUpdated = Date.now();
         this.bonusPoints = value;
     }
     getGameResult() {
         return this.gameResult;
     }
     setGameResult(value) {
+        this.lastUpdated = Date.now();
         this.gameResult = value;
     }
     getScoreKey() {
         return this.scoreKey;
     }
     generateScoreKey() {
+        this.lastUpdated = Date.now();
         return util_1.format('%s:%s:%s:%s', this.mazeId, this.teamId, this.gameId, this.gameRound);
     }
     constructor(data) {
@@ -87,7 +93,7 @@ class Score {
             this.mazeId = '';
             this.teamId = '';
             this.gameId = '';
-            this.gameRound = 0;
+            this.gameRound = 1;
             this.lastUpdated = -1;
             // generate the score key from maze, team, game, and round
             this.scoreKey = 'SCORE_KEY_NOT_SET';

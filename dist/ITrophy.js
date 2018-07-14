@@ -26,9 +26,9 @@ exports.Trophies = new Array({
     bonusAward: -500,
     count: 1
 }, { id: Enums_1.TROPHY_IDS.WINNER_WINNER_CHEDDAR_DINNER, name: 'Winner, Winner, Cheddar Dinner', description: 'You escaped the maze!', bonusAward: 500, count: 1 }, {
-    id: Enums_1.TROPHY_IDS.PERFECT_RUN,
-    name: 'Perfect Run',
-    description: 'You beat a maze in the shortest possible number of moves. NICE!',
+    id: Enums_1.TROPHY_IDS.FLAWLESS_VICTORY,
+    name: 'Flawless Victory',
+    description: 'You defeated the maze in the shortest possible number of moves. NICE!',
     bonusAward: 1000,
     count: 1
 }, { id: Enums_1.TROPHY_IDS.YOU_FOUGHT_THE_WALL, name: 'You Fought the Wall', description: 'You fought the wall and the wall won.', bonusAward: -50, count: 1 }, {

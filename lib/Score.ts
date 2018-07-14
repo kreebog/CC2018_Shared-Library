@@ -14,13 +14,13 @@ export class Score {
     private moveCount: number;
     private backtrackCount: number;
     private bonusPoints: number;
-    
-    /**         Accessors         **/
 
+    /**         Accessors         **/
     public getBacktrackCount(): number {
         return this.backtrackCount;
     }
     public setBacktrackCount(value: number) {
+        this.lastUpdated = Date.now();
         this.backtrackCount = value;
     }
     public addBacktrack() {
@@ -60,12 +60,14 @@ export class Score {
     }
 
     public setMoveCount(count: number) {
+        this.lastUpdated = Date.now();
         this.moveCount = count;
     }
     public getMoveCount(): number {
         return this.moveCount;
     }
     public addMove() {
+        this.lastUpdated = Date.now();
         this.moveCount++;
     }
 
@@ -73,6 +75,7 @@ export class Score {
         return this.bonusPoints;
     }
     public setBonusPoints(value: number) {
+        this.lastUpdated = Date.now();
         this.bonusPoints = value;
     }
 
@@ -80,6 +83,7 @@ export class Score {
         return this.gameResult;
     }
     public setGameResult(value: GAME_RESULTS) {
+        this.lastUpdated = Date.now();
         this.gameResult = value;
     }
 
@@ -87,6 +91,7 @@ export class Score {
         return this.scoreKey;
     }
     private generateScoreKey(): string {
+        this.lastUpdated = Date.now();
         return format('%s:%s:%s:%s', this.mazeId, this.teamId, this.gameId, this.gameRound);
     }
 
@@ -110,7 +115,7 @@ export class Score {
             this.mazeId = '';
             this.teamId = '';
             this.gameId = '';
-            this.gameRound = 0;
+            this.gameRound = 1;
             this.lastUpdated = -1;
 
             // generate the score key from maze, team, game, and round

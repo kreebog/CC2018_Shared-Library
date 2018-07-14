@@ -19,24 +19,22 @@ const log = Logger.getInstance();
 export class Game {
     private id: string;
     private state: GAME_STATES;
-    private result: GAME_RESULTS;
     private maze: Maze;
     private team: Team;
     private score: Score;
     private player: Player;
     private actions: Array<IAction>;
-    private lastUpdateTime: number;
+    private lastUpdated: number;
 
     constructor(maze: Maze, team: Team, player: Player, score: Score) {
         this.id = uuid();
         this.state = GAME_STATES.NEW;
-        this.result = GAME_RESULTS.IN_PROGRESS;
         this.maze = maze;
         this.player = player;
         this.team = team;
         this.score = new Score();
         this.actions = new Array<IAction>();
-        this.lastUpdateTime = -1;
+        this.lastUpdated = -1;
 
         log.debug(__filename, 'constructor()', 'New Game instance created.  Id: ' + this.id);
     }
@@ -46,6 +44,7 @@ export class Game {
     }
 
     public addAction(action: IAction) {
+        this.lastUpdated = Date.now();
         this.actions.push(action);
     }
 
@@ -85,6 +84,19 @@ export class Game {
         return ret;
     }
 
+    public getStub(gameServerExtUrl: string): IGameStub {
+        let stub: IGameStub = {
+            gameId: this.getId(),
+            team: this.getTeam().toJSON(),
+            gameState: this.getState(),
+            score: this.getScore().toJSON(),
+            mazeStub: this.getMaze().getMazeStub(),
+            url: format('%s/%s/%s', gameServerExtUrl, 'game', this.getId())
+        };
+
+        return stub;
+    }
+
     // useful for testing - forces the ID to the given value
     public forceSetId(forcedId: string) {
         this.id = forcedId;
@@ -94,16 +106,9 @@ export class Game {
         return this.state;
     }
 
-    public getResult() {
-        return this.result;
-    }
-
     public setState(gameState: GAME_STATES) {
+        this.lastUpdated = Date.now();
         this.state = gameState;
-    }
-
-    public setResult(gameResult: GAME_RESULTS) {
-        this.result = gameResult;
     }
 
     public getMaze(): Maze {
@@ -124,22 +129,5 @@ export class Game {
 
     public getPlayer(): Player {
         return this.player;
-    }
-
-    public getGameStub(): IGameStub {
-        let stub: IGameStub = {
-            gameId: this.id,
-            gameState: this.state,
-            mazeStub: this.maze.getMazeStub(),
-            team: this.team.toJSON(),
-            score: this.score.toJSON(),
-            url: ''
-        };
-
-        return stub;
-    }
-
-    private updatePos(pos: Pos, dir: DIRS): Pos {
-        return new Pos(0, 0);
     }
 }

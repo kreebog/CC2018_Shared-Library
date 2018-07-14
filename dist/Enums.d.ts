@@ -5,7 +5,7 @@ export declare enum TROPHY_IDS {
     WISHFUL_THINKING = 3,
     WISHFUL_DYING = 4,
     WINNER_WINNER_CHEDDAR_DINNER = 5,
-    PERFECT_RUN = 6,
+    FLAWLESS_VICTORY = 6,
     YOU_FOUGHT_THE_WALL = 7,
     SPINNING_YOUR_WHEELS = 8
 }
@@ -42,22 +42,22 @@ export declare enum TAGS {
     TRAP_FLAMETHOWER = 256
 }
 export declare enum GAME_RESULTS {
-    IN_PROGRESS = 1,
-    OUT_OF_MOVES = 2,
-    OUT_OF_TIME = 4,
-    DEATH_TRAP = 8,
-    DEATH_POISON = 16,
-    DEATH_LAVA = 32,
-    WIN = 64
+    IN_PROGRESS = 0,
+    OUT_OF_MOVES = 1,
+    OUT_OF_TIME = 2,
+    DEATH_TRAP = 3,
+    DEATH_POISON = 4,
+    DEATH_LAVA = 5,
+    WIN = 6,
+    WIN_FLAWLESS = 7,
+    ABANDONED = 8
 }
 export declare enum GAME_STATES {
     NEW = 0,
     IN_PROGRESS = 1,
-    WAIT_BOT = 2,
-    WAIT_TEAM = 4,
-    FINISHED = 8,
-    ABORTED = 16,
-    ERROR = 32
+    FINISHED = 2,
+    ABORTED = 3,
+    ERROR = 4
 }
 /**
  * Singleton of Enumerations used by CC2018

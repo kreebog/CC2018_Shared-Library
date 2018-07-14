@@ -1,4 +1,4 @@
-import { GAME_STATES, GAME_RESULTS } from './Enums';
+import { GAME_STATES } from './Enums';
 import { Maze } from './Maze';
 import { IMaze } from './IMaze';
 import { Team } from './Team';
@@ -9,13 +9,12 @@ import { IAction } from './IAction';
 export declare class Game {
     private id;
     private state;
-    private result;
     private maze;
     private team;
     private score;
     private player;
     private actions;
-    private lastUpdateTime;
+    private lastUpdated;
     constructor(maze: Maze, team: Team, player: Player, score: Score);
     getId(): string;
     addAction(action: IAction): void;
@@ -23,16 +22,13 @@ export declare class Game {
     getActions(): Array<IAction>;
     getActionsSince(moveNumber: number): Array<IAction>;
     getActionsRange(start: number, count: number): Array<IAction>;
+    getStub(gameServerExtUrl: string): IGameStub;
     forceSetId(forcedId: string): void;
     getState(): GAME_STATES;
-    getResult(): GAME_RESULTS;
     setState(gameState: GAME_STATES): void;
-    setResult(gameResult: GAME_RESULTS): void;
     getMaze(): Maze;
     getIMaze(): IMaze;
     getTeam(): Team;
     getScore(): Score;
     getPlayer(): Player;
-    getGameStub(): IGameStub;
-    private updatePos;
 }

@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const util_1 = require("util");
 const Enums_1 = require("./Enums");
 const Enums_2 = require("./Enums");
 const Score_1 = require("./Score");
 const Logger_1 = require("./Logger");
-const Pos_1 = require("./Pos");
 let uuid = require('uuid/v4');
 const enums = Enums_1.Enums.getInstance();
 const log = Logger_1.Logger.getInstance();
@@ -12,19 +12,19 @@ class Game {
     constructor(maze, team, player, score) {
         this.id = uuid();
         this.state = Enums_2.GAME_STATES.NEW;
-        this.result = Enums_2.GAME_RESULTS.IN_PROGRESS;
         this.maze = maze;
         this.player = player;
         this.team = team;
         this.score = new Score_1.Score();
         this.actions = new Array();
-        this.lastUpdateTime = -1;
+        this.lastUpdated = -1;
         log.debug(__filename, 'constructor()', 'New Game instance created.  Id: ' + this.id);
     }
     getId() {
         return this.id;
     }
     addAction(action) {
+        this.lastUpdated = Date.now();
         this.actions.push(action);
     }
     getAction(moveNumber) {
@@ -59,6 +59,17 @@ class Game {
         }
         return ret;
     }
+    getStub(gameServerExtUrl) {
+        let stub = {
+            gameId: this.getId(),
+            team: this.getTeam().toJSON(),
+            gameState: this.getState(),
+            score: this.getScore().toJSON(),
+            mazeStub: this.getMaze().getMazeStub(),
+            url: util_1.format('%s/%s/%s', gameServerExtUrl, 'game', this.getId())
+        };
+        return stub;
+    }
     // useful for testing - forces the ID to the given value
     forceSetId(forcedId) {
         this.id = forcedId;
@@ -66,14 +77,9 @@ class Game {
     getState() {
         return this.state;
     }
-    getResult() {
-        return this.result;
-    }
     setState(gameState) {
+        this.lastUpdated = Date.now();
         this.state = gameState;
-    }
-    setResult(gameResult) {
-        this.result = gameResult;
     }
     getMaze() {
         return this.maze;
@@ -89,20 +95,6 @@ class Game {
     }
     getPlayer() {
         return this.player;
-    }
-    getGameStub() {
-        let stub = {
-            gameId: this.id,
-            gameState: this.state,
-            mazeStub: this.maze.getMazeStub(),
-            team: this.team.toJSON(),
-            score: this.score.toJSON(),
-            url: ''
-        };
-        return stub;
-    }
-    updatePos(pos, dir) {
-        return new Pos_1.Pos(0, 0);
     }
 }
 exports.Game = Game;

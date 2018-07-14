@@ -6,7 +6,7 @@ export enum TROPHY_IDS {
     WISHFUL_THINKING,
     WISHFUL_DYING,
     WINNER_WINNER_CHEDDAR_DINNER,
-    PERFECT_RUN,
+    FLAWLESS_VICTORY,
     YOU_FOUGHT_THE_WALL,
     SPINNING_YOUR_WHEELS
 }
@@ -50,24 +50,24 @@ export enum TAGS {
 
 // enumeration of possible game results
 export enum GAME_RESULTS {
-    IN_PROGRESS = 1,
-    OUT_OF_MOVES = 2,
-    OUT_OF_TIME = 4,
-    DEATH_TRAP = 8,
-    DEATH_POISON = 16,
-    DEATH_LAVA = 32,
-    WIN = 64
+    IN_PROGRESS = 0,
+    OUT_OF_MOVES,
+    OUT_OF_TIME,
+    DEATH_TRAP,
+    DEATH_POISON,
+    DEATH_LAVA,
+    WIN,
+    WIN_FLAWLESS,
+    ABANDONED
 }
 
 // enumeration of possible game states
 export enum GAME_STATES {
     NEW = 0,
-    IN_PROGRESS = 1,
-    WAIT_BOT = 2,
-    WAIT_TEAM = 4,
-    FINISHED = 8,
-    ABORTED = 16,
-    ERROR = 32
+    IN_PROGRESS,
+    FINISHED,
+    ABORTED,
+    ERROR
 }
 
 /**

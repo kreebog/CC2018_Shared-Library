@@ -32,9 +32,9 @@ export let Trophies: Array<ITrophy> = new Array<ITrophy>(
     },
     { id: TROPHY_IDS.WINNER_WINNER_CHEDDAR_DINNER, name: 'Winner, Winner, Cheddar Dinner', description: 'You escaped the maze!', bonusAward: 500, count: 1 },
     {
-        id: TROPHY_IDS.PERFECT_RUN,
-        name: 'Perfect Run',
-        description: 'You beat a maze in the shortest possible number of moves. NICE!',
+        id: TROPHY_IDS.FLAWLESS_VICTORY,
+        name: 'Flawless Victory',
+        description: 'You defeated the maze in the shortest possible number of moves. NICE!',
         bonusAward: 1000,
         count: 1
     },
