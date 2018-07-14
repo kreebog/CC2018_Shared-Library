@@ -49,4 +49,22 @@ exports.Trophies = new Array({
     description: 'You wrote more than one note in a room... Are you hoping to be a novelist?',
     bonusAward: -10,
     count: 1
+}, {
+    id: Enums_1.TROPHY_IDS.JUMPING_JACK_FLASH,
+    name: 'Jumping Jack Flash',
+    description: 'Rather than solve the maze, you jumped. In place. For no reason at all.',
+    bonusAward: -25,
+    count: 1
+}, {
+    id: Enums_1.TROPHY_IDS.KICKING_UP_DUST,
+    name: 'Kicking Up Dust',
+    description: 'You tried to jump without bothering to stand up first and ended up just mule-kicking the dusty air.',
+    bonusAward: -25,
+    count: 1
+}, {
+    id: Enums_1.TROPHY_IDS.MIGHTY_MOUSE,
+    name: 'Might Mouse',
+    description: 'You saw a trap ahead and JUMPED, flying over the danger like the Mighty Mouse of legend.',
+    bonusAward: 50,
+    count: 1
 });

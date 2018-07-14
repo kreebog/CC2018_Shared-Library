@@ -9,7 +9,10 @@ export declare enum TROPHY_IDS {
     YOU_FOUGHT_THE_WALL = 7,
     SPINNING_YOUR_WHEELS = 8,
     SCRIBBLER = 9,
-    PAPERBACK_WRITER = 10
+    PAPERBACK_WRITER = 10,
+    JUMPING_JACK_FLASH = 11,
+    KICKING_UP_DUST = 12,
+    MIGHTY_MOUSE = 13
 }
 export declare enum PLAYER_STATES {
     NONE = 0,
