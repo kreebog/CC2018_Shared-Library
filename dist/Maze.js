@@ -32,6 +32,7 @@ class Maze {
             this.height = data.height;
             this.width = data.width;
             this.seed = data.seed;
+            this.challenge = data.challenge;
             this.textRender = data.textRender;
             this.id = data.id;
             this.startCell = data.startCell;
@@ -44,6 +45,7 @@ class Maze {
             this.height = 0;
             this.width = 0;
             this.seed = '';
+            this.challenge = 0;
             this.textRender = '';
             this.id = '';
             this.startCell = new Pos_1.Pos(0, 0);
@@ -78,6 +80,7 @@ class Maze {
             height: this.height,
             width: this.width,
             seed: this.seed,
+            challenge: this.challenge,
             textRender: this.textRender,
             id: this.id,
             startCell: this.startCell,
@@ -92,6 +95,7 @@ class Maze {
             height: this.height,
             width: this.width,
             seed: this.seed,
+            challenge: this.challenge,
             url: ''
         };
         return stub;

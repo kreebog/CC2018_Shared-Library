@@ -8,6 +8,7 @@ export interface IMaze {
     height: number;
     width: number;
     seed: string;
+    challenge: number;
     textRender: string;
     id: string;
     startCell: Pos;

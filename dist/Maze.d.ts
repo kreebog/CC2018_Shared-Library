@@ -11,6 +11,7 @@ export declare class Maze {
     private height;
     private width;
     private seed;
+    private challenge;
     private textRender;
     private id;
     private startCell;

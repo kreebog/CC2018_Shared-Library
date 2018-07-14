@@ -6,5 +6,6 @@ export interface IMazeStub {
     height: number;
     width: number;
     seed: string;
+    challenge: number;
     url: string;
 }
