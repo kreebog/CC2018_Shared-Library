@@ -28,6 +28,8 @@ export declare class Maze {
      */
     toJSON(): IMaze;
     getMazeStub(): IMazeStub;
+    getChallengeLevel(): number;
+    setChallengeLevel(challengeLevel: number): void;
     getCellVisits(pos: Pos): number;
     getStartCell(): Pos;
     getFinishCell(): Pos;

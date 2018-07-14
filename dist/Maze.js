@@ -100,6 +100,12 @@ class Maze {
         };
         return stub;
     }
+    getChallengeLevel() {
+        return this.challenge;
+    }
+    setChallengeLevel(challengeLevel) {
+        this.challenge = challengeLevel;
+    }
     // Cell Update Functions
     getCellVisits(pos) {
         return this.cells[pos.row][pos.col].getVisitCount();

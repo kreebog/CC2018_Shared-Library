@@ -37,4 +37,16 @@ exports.Trophies = new Array({
     description: 'You tried to walk without bothering to stand up first.',
     bonusAward: -10,
     count: 1
+}, {
+    id: Enums_1.TROPHY_IDS.SCRIBBLER,
+    name: 'The Scribbler',
+    description: 'You took the time to scratch a note into the floor.',
+    bonusAward: 0,
+    count: 1
+}, {
+    id: Enums_1.TROPHY_IDS.PAPERBACK_WRITER,
+    name: 'Paperback Writer',
+    description: 'You wrote more than one note in a room... Are you hoping to be a novelist?',
+    bonusAward: -10,
+    count: 1
 });

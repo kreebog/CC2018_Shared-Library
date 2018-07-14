@@ -120,6 +120,14 @@ export class Maze {
         return stub;
     }
 
+    public getChallengeLevel(): number {
+        return this.challenge;
+    }
+
+    public setChallengeLevel(challengeLevel: number) {
+        this.challenge = challengeLevel;
+    }
+
     // Cell Update Functions
     public getCellVisits(pos: Pos): number {
         return this.cells[pos.row][pos.col].getVisitCount();
