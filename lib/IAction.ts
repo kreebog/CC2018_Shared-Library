@@ -2,6 +2,7 @@ import { PLAYER_STATES, DIRS } from './Enums';
 import { IEngram } from './IEngram';
 import { IScore } from './IScore';
 import { Pos } from './Pos';
+import { ITrophy } from './ITrophy';
 
 export interface IAction {
     action: string;
@@ -11,5 +12,7 @@ export interface IAction {
     mazeId: string;
     score: IScore;
     playerState: PLAYER_STATES;
-    outcome: Array<string>; // this works kind of like badges/trophies
+    outcome: Array<string>;
+    trophies: Array<ITrophy>;
+    botCohesion: Array<number>;
 }
