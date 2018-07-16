@@ -19,7 +19,7 @@ export let Trophies: Array<ITrophy> = new Array<ITrophy>(
     {
         id: TROPHY_IDS.WISHFUL_THINKING,
         name: 'Wishful Thinking',
-        description: "Even though we told you abou the lava you thought about trying to walk out through the entrance, didn't you? ",
+        description: "Even though we told you about the lava you thought about trying to walk out through the entrance, didn't you? ",
         bonusAward: -5,
         count: 1
     },
