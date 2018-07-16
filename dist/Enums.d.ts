@@ -20,7 +20,10 @@ export declare enum TROPHY_IDS {
     LIGHT_AT_THE_END = 18,
     DAZED_AND_CONFUSED = 19,
     DOUBLE_BACKER = 20,
-    LOOPER = 21
+    LOOPER = 21,
+    YOU_FELL_FOR_IT = 22,
+    TOO_HOT_TO_HANDLE = 23,
+    OUT_OF_MOVES = 24
 }
 export declare enum PLAYER_STATES {
     NONE = 0,

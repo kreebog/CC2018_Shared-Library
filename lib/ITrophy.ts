@@ -136,6 +136,27 @@ export let Trophies: Array<ITrophy> = new Array<ITrophy>(
         description: 'You found a path that you really liked and kept repeating it.',
         bonusAward: -50,
         count: 1
+    },
+    {
+        id: TROPHY_IDS.YOU_FELL_FOR_IT,
+        name: 'You FELL for It',
+        description: 'You found a pit trap... The hard way.',
+        bonusAward: -75,
+        count: 1
+    },
+    {
+        id: TROPHY_IDS.TOO_HOT_TO_HANDLE,
+        name: 'Too Hot to Handle',
+        description: "You found, and detonated, a fire trap.  Didn't anybody every tell you not to play with fire?",
+        bonusAward: -75,
+        count: 1
+    },
+    {
+        id: TROPHY_IDS.OUT_OF_MOVES,
+        name: 'Out of Moves',
+        description: 'We gave you enough moves to visit every room of the maze... THREE TIMES... But you still used them all without finding the exit.',
+        bonusAward: -125,
+        count: 1
     }
 );
 

@@ -21,7 +21,10 @@ export enum TROPHY_IDS {
     LIGHT_AT_THE_END,
     DAZED_AND_CONFUSED,
     DOUBLE_BACKER,
-    LOOPER
+    LOOPER,
+    YOU_FELL_FOR_IT,
+    TOO_HOT_TO_HANDLE,
+    OUT_OF_MOVES
 }
 
 export enum PLAYER_STATES {
