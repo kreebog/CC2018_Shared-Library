@@ -39,9 +39,9 @@ export class Maze {
 
     /**
      * Instantiates or new or pre-loaded Maze object
-     * @param data - IMaze interface prefilled with required data
+     * @param data - IMaze interface pre-filled with required data
      */
-    constructor(data?: Maze) {
+    constructor(data?: IMaze) {
         if (data !== undefined) {
             this.height = data.height;
             this.width = data.width;
@@ -186,7 +186,7 @@ export class Maze {
      * Generates a new maze based on the given parameters
      * @param height - The height of the maze grid
      * @param width - The width of the maze grid
-     * @param seed - PRNG seed value.  If empty, maze will be random and unrepeatable
+     * @param seed - pseudo random number generator seed value.  If empty, maze will be random and unrepeatable
      */
     public generate(height: number, width: number, seed: string): this {
         if (this.cells.length > 0) {

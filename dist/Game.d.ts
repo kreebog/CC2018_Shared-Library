@@ -14,9 +14,18 @@ export declare class Game {
     private score;
     private player;
     private actions;
-    private lastUpdated;
-    constructor(maze: Maze, team: Team, player: Player, score: Score);
+    private botId;
+    private round;
+    private lastAccessed;
+    constructor(maze: Maze, team: Team, player: Player, score: Score, round: number, botId?: string);
+    getRound(): number;
+    /**
+     * New game round - resets actions, score, player state, and player location
+     */
+    nextRound(): number;
+    getLastAccessTime(): number;
     getId(): string;
+    getBotId(): string;
     addAction(action: IAction): void;
     getAction(moveNumber: number): IAction;
     getActions(): Array<IAction>;

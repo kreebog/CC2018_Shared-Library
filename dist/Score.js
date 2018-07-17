@@ -4,6 +4,12 @@ const util_1 = require("util");
 const Enums_1 = require("./Enums");
 class Score {
     /**         Accessors         **/
+    setBotId(botId) {
+        this.botId = botId;
+    }
+    getBotId() {
+        return this.botId;
+    }
     getBacktrackCount() {
         return this.backtrackCount;
     }
@@ -81,6 +87,7 @@ class Score {
             this.gameId = data.gameId;
             this.gameRound = data.gameRound;
             this.lastUpdated = data.lastUpdated;
+            this.botId = data.botId;
             // generate the score key from maze, team, game, and round
             this.scoreKey = this.generateScoreKey();
             // set the current score values
@@ -95,6 +102,7 @@ class Score {
             this.gameId = '';
             this.gameRound = 1;
             this.lastUpdated = -1;
+            this.botId = '';
             // generate the score key from maze, team, game, and round
             this.scoreKey = 'SCORE_KEY_NOT_SET';
             // set the current score values
@@ -115,7 +123,8 @@ class Score {
             moveCount: this.moveCount,
             backtrackCount: this.backtrackCount,
             bonusPoints: this.bonusPoints,
-            lastUpdated: this.lastUpdated
+            lastUpdated: this.lastUpdated,
+            botId: this.botId
         };
         return data;
     }

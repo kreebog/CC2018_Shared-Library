@@ -4,6 +4,7 @@ export declare class Score {
     private mazeId;
     private teamId;
     private gameId;
+    private botId;
     private gameRound;
     private scoreKey;
     private lastUpdated;
@@ -12,6 +13,8 @@ export declare class Score {
     private backtrackCount;
     private bonusPoints;
     /**         Accessors         **/
+    setBotId(botId: string): void;
+    getBotId(): string;
     getBacktrackCount(): number;
     setBacktrackCount(value: number): void;
     addBacktrack(): void;

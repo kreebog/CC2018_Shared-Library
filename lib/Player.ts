@@ -22,6 +22,10 @@ export class Player {
         this.state = state;
     }
 
+    public clearStates() {
+        this.state = PLAYER_STATES.NONE;
+    }
+
     public addState(state: PLAYER_STATES) {
         if (!(this.state & state)) {
             this.state += state;

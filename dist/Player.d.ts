@@ -6,6 +6,7 @@ export declare class Player {
     private state;
     readonly State: PLAYER_STATES;
     constructor(location: Pos, state: PLAYER_STATES);
+    clearStates(): void;
     addState(state: PLAYER_STATES): void;
     removeState(state: PLAYER_STATES): void;
 }

@@ -25,7 +25,7 @@ const log = Logger_1.Logger.getInstance();
 class Maze {
     /**
      * Instantiates or new or pre-loaded Maze object
-     * @param data - IMaze interface prefilled with required data
+     * @param data - IMaze interface pre-filled with required data
      */
     constructor(data) {
         if (data !== undefined) {
@@ -153,7 +153,7 @@ class Maze {
      * Generates a new maze based on the given parameters
      * @param height - The height of the maze grid
      * @param width - The width of the maze grid
-     * @param seed - PRNG seed value.  If empty, maze will be random and unrepeatable
+     * @param seed - pseudo random number generator seed value.  If empty, maze will be random and unrepeatable
      */
     generate(height, width, seed) {
         if (this.cells.length > 0) {

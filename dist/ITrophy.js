@@ -16,7 +16,7 @@ exports.Trophies = new Array({
 }, { id: Enums_1.TROPHY_IDS.WATCHING_PAINT_DRY, name: 'Watching Paint Dry', description: 'Why did you stare at the wall? Why? WHY?!', bonusAward: 0, count: 1 }, {
     id: Enums_1.TROPHY_IDS.WISHFUL_THINKING,
     name: 'Wishful Thinking',
-    description: "Even though we told you abou the lava you thought about trying to walk out through the entrance, didn't you? ",
+    description: "Even though we told you about the lava you thought about trying to walk out through the entrance, didn't you? ",
     bonusAward: -5,
     count: 1
 }, {

@@ -5,11 +5,12 @@ export interface IScore {
     mazeId: string;
     teamId: string;
     gameId: string;
+    botId: string;
     gameRound: number;
     scoreKey: string;
     lastUpdated: number;
 
-    // the final result of the game 
+    // the final result of the game
     gameResult: GAME_RESULTS;
 
     // various score elements

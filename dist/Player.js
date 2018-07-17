@@ -16,6 +16,9 @@ class Player {
         this.location = location;
         this.state = state;
     }
+    clearStates() {
+        this.state = Enums_1.PLAYER_STATES.NONE;
+    }
     addState(state) {
         if (!(this.state & state)) {
             this.state += state;
