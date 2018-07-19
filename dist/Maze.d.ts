@@ -46,7 +46,7 @@ export declare class Maze {
      * @param width - The width of the maze grid
      * @param seed - pseudo random number generator seed value.  If empty, maze will be random and unrepeatable
      */
-    generate(height: number, width: number, seed: string): this;
+    generate(height: number, width: number, seed: string, challengeLevel: number): this;
     private carvePassage;
     /**
      * Returns a text rendering of the maze as a grid of 3x3
@@ -64,4 +64,5 @@ export declare class Maze {
      * @param pathId
      */
     private tagSolution;
+    private addTraps;
 }

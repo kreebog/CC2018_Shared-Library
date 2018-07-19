@@ -188,7 +188,9 @@ export class Maze {
      * @param width - The width of the maze grid
      * @param seed - pseudo random number generator seed value.  If empty, maze will be random and unrepeatable
      */
-    public generate(height: number, width: number, seed: string): this {
+    public generate(height: number, width: number, seed: string, challengeLevel: number): this {
+        this.challenge = challengeLevel;
+
         if (this.cells.length > 0) {
             log.warn(__filename, 'generate()', 'This maze has already been generated.');
             return this;
@@ -258,6 +260,9 @@ export class Maze {
         // now solve the maze and tag the path
         this.solveAndTag();
 
+        // then add some traps...
+        this.addTraps();
+
         // render the maze so the text rendering is set
         this.render();
 
@@ -291,25 +296,6 @@ export class Maze {
                     if (!(nextCell.getTags() & TAGS.CARVED) && cell.addExit(dirs[n], this.cells)) {
                         // this is a good move, so mark the cell as carved
                         nextCell.addTag(TAGS.CARVED);
-
-                        // add traps?  Have to be sure that the trap can be jumped over
-                        let trapChance = 10; // 1 in 10?
-                        if ((!!(cell.getExits() & DIRS.NORTH) && !!(cell.getExits() & DIRS.SOUTH)) || (!!(cell.getExits() & DIRS.EAST) && !!(cell.getExits() & DIRS.WEST))) {
-                            let trapNum = Math.floor(Math.random() * trapChance);
-                            if (trapNum == 3) {
-                                switch (Math.floor(Math.random() * 3 + 1)) {
-                                    case 1:
-                                        cell.addTag(TAGS.TRAP_BEARTRAP);
-                                        break;
-                                    case 2:
-                                        cell.addTag(TAGS.TRAP_PIT);
-                                        break;
-                                    case 3:
-                                        cell.addTag(TAGS.TRAP_FLAMETHOWER);
-                                        break;
-                                }
-                            }
-                        }
 
                         // and carve into the next cell
                         this.carvePassage(nextCell);
@@ -514,4 +500,56 @@ export class Maze {
         recurseDepth--;
         log.debug(__filename, format('tagSolution(%s)', cellPos.toString()), format('R:%d P:%s -- Path complete.', recurseDepth, pathId));
     } // end tagSolution()
+
+    private addTraps() {
+        log.debug(__filename, 'generate()', format('Randomly adding traps for challenge level %s maze.', this.challenge));
+
+        let trapCount = 0;
+        for (let y = 0; y < this.height; y++) {
+            for (let x = 0; x < this.width; x++) {
+                let cell = this.cells[y][x];
+
+                // add traps?  Have to be sure that the trap can be jumped over
+                if (this.challenge >= 3) {
+                    // traps only allowed if there are open cells on either side to allow jumping
+                    // traps on the solution path will be removed when solution is
+
+                    let trapAllowed = !!(cell.getExits() & DIRS.NORTH) && !!(cell.getExits() & DIRS.SOUTH); // north-south safe
+                    if (!trapAllowed) trapAllowed = !!(cell.getExits() & DIRS.NORTH) && !!(cell.getExits() & DIRS.SOUTH); // not north-south save, but east-west safe?
+                    if (trapAllowed) trapAllowed = !(cell.getTags() & TAGS.PATH); // cancel both if trap is on solution path
+
+                    if (trapAllowed) {
+                        let trapTries = Math.floor(this.challenge / 4);
+                        log.debug(__filename, 'generate()', format('trapTries=', trapTries));
+
+                        for (let trapCheck = 1; trapCheck <= Math.floor(this.challenge / 3); trapCheck++) {
+                            let trapNum = Math.floor(Math.random() * 13) - this.challenge + 1;
+                            log.debug(__filename, 'generate()', format('trapNum=%s', trapNum));
+                            switch (trapNum) {
+                                case 1: {
+                                    cell.addTag(TAGS.TRAP_PIT);
+                                    trapCount++;
+                                    break;
+                                }
+                                case 2: {
+                                    cell.addTag(TAGS.TRAP_FLAMETHOWER);
+                                    trapCount++;
+                                    break;
+                                }
+                                default: {
+                                    log.debug(__filename, 'generate()', format('No hit on trap num %s', trapNum));
+                                }
+                            }
+                            if (trapNum > 0 && trapNum < 4) break;
+                        }
+                    } else {
+                        log.debug(__filename, 'generate()', format('No room for traps.'));
+                    }
+                } else {
+                    log.debug(__filename, 'generate()', format('Challenge %s too low for traps.', this.challenge));
+                }
+            }
+        }
+        log.debug(__filename, 'generate()', format('Total trap count=%s', trapCount));
+    }
 }
