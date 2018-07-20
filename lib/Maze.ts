@@ -515,7 +515,7 @@ export class Maze {
                     // traps on the solution path will be removed when solution is
 
                     let trapAllowed = !!(cell.getExits() & DIRS.NORTH) && !!(cell.getExits() & DIRS.SOUTH); // north-south safe
-                    if (!trapAllowed) trapAllowed = !!(cell.getExits() & DIRS.NORTH) && !!(cell.getExits() & DIRS.SOUTH); // not north-south save, but east-west safe?
+                    if (!trapAllowed) trapAllowed = !!(cell.getExits() & DIRS.EAST) && !!(cell.getExits() & DIRS.WEST); // not north-south save, but east-west safe?
                     if (trapAllowed) trapAllowed = !(cell.getTags() & TAGS.PATH); // cancel both if trap is on solution path
 
                     if (trapAllowed) {
